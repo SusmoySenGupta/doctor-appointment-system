@@ -5,6 +5,7 @@ import env from "./config/env";
 import API from "./config/API";
 import axios from "axios";
 import router from './router/index.js';
+import './assets/tailwind.css';
 
 axios.defaults.baseURL = env.baseURL;
 
