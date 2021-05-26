@@ -36,8 +36,7 @@ const Store = createStore({
 						axios.defaults.headers.common[
 							"Authorization"
 						] = `Bearer ${responseData.access_token}`;
-                        resolve(response);
-                        console.log('Store: ',responseData);
+						resolve(response);
 					})
 					.catch((response) => {
 						reject(response);
@@ -73,7 +72,7 @@ const Store = createStore({
 		updateTokens(state, tokens) {
 			state.tokens = tokens;
 		},
-        updateCurrentUser(state, currentUser) {
+		updateCurrentUser(state, currentUser) {
 			state.currentUser = currentUser;
 		},
 		logout(state) {

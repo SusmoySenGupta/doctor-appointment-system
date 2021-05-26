@@ -1,6 +1,6 @@
 <template>
 	<div class="border">
-		<h2>Home Page->Doctor</h2>
+		<h2>Home Page->{{ user.name }}</h2>
 		<a
 			class="text-sm text-white px-3 py-1 bg-red-400 rounded"
 			href="#"
@@ -25,6 +25,11 @@ export default {
 					let errorMessage = error.response.data.message;
 					alert(errorMessage);
 				});
+		},
+	},
+	computed: {
+		user() {
+			return Store.getters.getCurrentUser;
 		},
 	},
 };

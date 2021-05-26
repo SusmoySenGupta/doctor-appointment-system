@@ -179,7 +179,7 @@
 							focus:outline-none
 							focus:ring-2
 							ring-offset-current ring-offset-2
-                            active:bg-black
+							active:bg-black
 						"
 					>
 						Log In
@@ -189,10 +189,10 @@
 
 				<p class="mt-8 text-center">
 					Need an account?
-					<a
-						href="#"
+					<router-link
+						:to="{ name: 'auth.register' }"
 						class="font-semibold text-blue-500 hover:text-blue-700"
-						>Sign Up</a
+						>Sign Up</router-link
 					>
 				</p>
 			</div>
@@ -217,20 +217,18 @@ export default {
 				.then(() => {
 					Store.dispatch("getCurrentUser")
 						.then((currentUserResponse) => {
-                            const ROLE_ID = currentUserResponse.data.role_id;
-                            if(ROLE_ID === 1) {
-                                this.$router.push({name: "admin.home"});
-                            }
-                            else if(ROLE_ID === 2) {
-                                this.$router.push({name: "doctor.home"})
-                            }
-                            else if(ROLE_ID === 3){
-                                this.$router.push({name: "patient.home"})
-                            }
+							const ROLE_ID = currentUserResponse.data.role_id;
+							if (ROLE_ID === 1) {
+								this.$router.push({ name: "admin.home" });
+							} else if (ROLE_ID === 2) {
+								this.$router.push({ name: "doctor.home" });
+							} else if (ROLE_ID === 3) {
+								this.$router.push({ name: "patient.home" });
+							}
 						})
 						.catch((getCurrentUserError) => {
-                            alert(getCurrentUserError);
-                        });
+							alert(getCurrentUserError);
+						});
 				})
 				.catch((loginError) => {
 					alert(loginError);

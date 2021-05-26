@@ -1,6 +1,6 @@
 <template>
 	<div class="border">
-		<h2>Home Page->Patient</h2>
+		<h2>Home Page->{{ user.name }}</h2>
 		<a
 			class="text-sm text-white px-3 py-1 bg-red-400 rounded"
 			href="#"
@@ -13,7 +13,9 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+            
+        };
 	},
 	methods: {
 		logout() {
@@ -27,6 +29,12 @@ export default {
 				});
 		},
 	},
+
+    computed: {
+        user() {
+            return Store.getters.getCurrentUser;
+        }
+    }
 };
 </script>
 
