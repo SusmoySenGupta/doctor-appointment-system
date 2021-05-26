@@ -1,16 +1,19 @@
 <template>
-	<div>
-		<h2>HOME</h2>
-		<a href="#" @click.prevent="logout">Logout</a>
+	<div class="border">
+		<h2>Home Page->Administrator</h2>
+		<a
+			class="text-sm text-white px-3 py-1 bg-red-400 rounded"
+			href="#"
+			@click.prevent="logout"
+			>Logout</a
+		>
 	</div>
 </template>
 
 <script>
 export default {
 	data() {
-		return {
-			
-		};
+		return {};
 	},
 	methods: {
 		logout() {

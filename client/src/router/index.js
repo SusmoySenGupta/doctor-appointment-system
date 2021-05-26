@@ -1,52 +1,44 @@
 import { createRouter, createWebHistory } from "vue-router";
+import AuthRoutes from "./auth";
+import AdminRoutes from "./admin";
+import DoctorRoutes from "./doctor";
+import PatientRoutes from "./patient";
 
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
+		...AuthRoutes,
+		...AdminRoutes,
+		...DoctorRoutes,
+		...PatientRoutes,
 		{
-			path: "/login",
-			name: "auth.login",
-			component: () => import("../views/auth/login.vue"),
-		},
-		{
-			path: "/register",
-			name: "auth.register",
-			component: () => import("../views/auth/register.vue"),
-		},
-		{
-			path: "/",
-			redirect: { name: "dashboard.home" },
-		},
-		{
-			path: "/dashboard",
-			component: () => import("../views/dashboard/main.vue"),
-			children: [
-				{
-					path: "/",
-					redirect: { name: "dashboard.home" },
-					meta: { requiresAuth: true },
-				},
-				{
-					path: "home",
-					name: "dashboard.home",
-					component: () => import("../views/home.vue"),
-					meta: { requiresAuth: true },
-				},
-			],
+			path: "/:pathMatch(.*)*",
+			name: "error.404",
+			component: () => import("../views/error/404.vue"),
 		},
 	],
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.meta.requiresAuth) {
-		const isLoggedIn = Store.getters.getCurrentUser ? true : false;
+	const USER = Store.getters.getCurrentUser;
+	const IS_LOGGED_IN = USER ? true : false;
 
-		if (isLoggedIn) {
+	if (to.meta.requiresAuth) {
+		if (IS_LOGGED_IN && to.meta.checkRole === USER.role_id) {
 			next();
 		} else {
 			next({ name: "auth.login" });
 		}
-	} else next();
+	} else {
+		if (
+			IS_LOGGED_IN &&
+			(to.name === "auth.login" || to.name === "auth.register")
+		) {
+			router.back();
+		} else {
+			next();
+		}
+	}
 });
 
 export default router;

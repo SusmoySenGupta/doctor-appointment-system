@@ -214,15 +214,26 @@ export default {
 	methods: {
 		login(user) {
 			Store.dispatch("login", user)
-				.then((response) => {
+				.then(() => {
 					Store.dispatch("getCurrentUser")
-						.then((resp) => {
-							this.$router.push("/");
+						.then((currentUserResponse) => {
+                            const ROLE_ID = currentUserResponse.data.role_id;
+                            if(ROLE_ID === 1) {
+                                this.$router.push({name: "admin.home"});
+                            }
+                            else if(ROLE_ID === 2) {
+                                this.$router.push({name: "doctor.home"})
+                            }
+                            else if(ROLE_ID === 3){
+                                this.$router.push({name: "patient.home"})
+                            }
 						})
-						.catch((err) => {});
+						.catch((getCurrentUserError) => {
+                            alert(getCurrentUserError);
+                        });
 				})
-				.catch((error) => {
-					alert(error);
+				.catch((loginError) => {
+					alert(loginError);
 				});
 		},
 	},

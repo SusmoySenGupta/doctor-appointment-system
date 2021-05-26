@@ -14,11 +14,7 @@ const Store = createStore({
 				refresh_token: "",
 				token_type: "",
 			},
-			currentUser: {
-				name: null,
-				email: null,
-				role: "",
-			},
+			currentUser: null,
 		};
 	},
 	actions: {
@@ -36,12 +32,12 @@ const Store = createStore({
 					.post(API.login, data)
 					.then((response) => {
 						let responseData = response.data;
-						let now = Date.now();
 						context.commit("updateTokens", responseData);
 						axios.defaults.headers.common[
 							"Authorization"
 						] = `Bearer ${responseData.access_token}`;
-						resolve(response);
+                        resolve(response);
+                        console.log('Store: ',responseData);
 					})
 					.catch((response) => {
 						reject(response);
@@ -54,9 +50,7 @@ const Store = createStore({
 					.get(API.user)
 					.then((response) => {
 						let responseData = response.data;
-
 						context.commit("updateCurrentUser", responseData);
-
 						resolve(response);
 					})
 					.catch((response) => {
@@ -79,7 +73,7 @@ const Store = createStore({
 		updateTokens(state, tokens) {
 			state.tokens = tokens;
 		},
-		updateCurrentUser(state, currentUser) {
+        updateCurrentUser(state, currentUser) {
 			state.currentUser = currentUser;
 		},
 		logout(state) {
