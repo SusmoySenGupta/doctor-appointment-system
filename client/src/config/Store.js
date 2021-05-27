@@ -22,7 +22,7 @@ const Store = createStore({
 			return new Promise((resolve, reject) => {
 				let data = {
 					client_id: 2,
-					client_secret: "D0QnXDONxwjHRrzcOgAWsHClWjLqkdiKkhgmJYUB",
+					client_secret: "fxZz8WybvPEATDI5kSowJ05razKAqHk7ZzyLWtsb",
 					grant_type: "password",
 					username: user.email,
 					password: user.password,

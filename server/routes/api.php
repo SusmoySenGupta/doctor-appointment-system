@@ -19,3 +19,7 @@ Route::post('register', [App\Http\Controllers\Api\AuthenticationController::clas
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('doctors/specialities', function() {
+    return App\Models\User::where('role_id', '2')->with('specialities')->get();
+});
