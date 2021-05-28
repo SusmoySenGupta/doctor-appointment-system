@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\SpecialityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,14 +14,21 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
-Route::post('register', [App\Http\Controllers\Api\AuthenticationController::class, 'register'])->name('register');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:api'], function ()
+{
+    Route::get('/user', function (Request $request)
+    {
+        return $request->user();
+    });
+
+   
 });
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
+{
+    Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
+    Route::resource('/specialities', SpecialityController::class)->only(['index', 'store']);
 
-Route::get('doctors/specialities', function() {
-    return App\Models\User::where('role_id', '2')->with('specialities')->get();
 });

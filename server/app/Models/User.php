@@ -40,6 +40,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'specialities'      => 'array',
     ];
 
     public function setPasswordAttribute($value)
