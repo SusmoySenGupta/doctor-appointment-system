@@ -6,43 +6,22 @@
 			Dashboard
 		</h2>
 		<Card></Card>
-		<Table :table-headers="tableHeaders"></Table>
+		<suspense>
+			<template #default>
+				<AdminTable></AdminTable>
+			</template>
+			<template #fallback>
+				<AdminTableSkeleton />
+			</template>
+		</suspense>
+		<!-- <AdminTableSkeleton /> -->
 	</div>
 </template>
 
-<script>
+<script setup>
 import Card from "../../components/Card.vue";
-import Table from "../../components/Table.vue";
-
-export default {
-	components: {
-		Card,
-		Table,
-	},
-	data() {
-		return {
-			tableHeaders: ["User", "Amount", "Status", "Date"],
-		};
-	},
-	methods: {
-		logout() {
-			Store.dispatch("logout")
-				.then((response) => {
-					this.$router.push("/login");
-				})
-				.catch((error) => {
-					let errorMessage = error.response.data.message;
-					alert(errorMessage);
-				});
-		},
-	},
-
-	computed: {
-		user() {
-			return Store.getters.getCurrentUser;
-		},
-	},
-};
+import AdminTable from "../../components/admin/table/AdminTable.vue";
+import AdminTableSkeleton from "../../components/admin/table/AdminTableSkeleton.vue";
 </script>
 
 <style></style>
