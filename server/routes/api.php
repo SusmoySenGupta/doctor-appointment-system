@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SpecialityController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\SpecialityController;
 |
  */
 
-
 Route::group(['middleware' => 'auth:api'], function ()
 {
     Route::get('/user', function (Request $request)
@@ -24,11 +23,9 @@ Route::group(['middleware' => 'auth:api'], function ()
         return $request->user();
     });
 
-   
-});
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
-{
-    Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
-    Route::resource('/specialities', SpecialityController::class)->only(['index', 'store']);
-
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
+    {
+        Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
+        Route::resource('/specialities', SpecialityController::class)->only(['index', 'store']);
+    });
 });
