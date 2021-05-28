@@ -80,7 +80,7 @@
 								<input
 									type="email"
 									v-model="formData.email"
-									placeholder="name"
+									placeholder="email"
 									class="
 										w-full
 										px-4
@@ -104,6 +104,38 @@
 								/>
 							</div>
 						</div>
+					</div>
+                    <div class="relative">
+						<label
+							for="phone_no"
+							class="text-base leading-7 text-gray-500"
+							>Phone Number</label
+						>
+						<input
+							type="number"
+							v-model="formData.phone_no"
+							placeholder="phone number"
+							class="
+								w-full
+								px-4
+								py-2
+								mt-2
+								text-base text-black
+								transition
+								duration-500
+								ease-in-out
+								transform
+								border-transparent
+								rounded-lg
+								bg-gray-100
+								focus:border-gray-500
+								focus:bg-white
+								focus:outline-none
+								focus:shadow-outline
+								focus:ring-2
+								ring-offset-current ring-offset-2
+							"
+						/>
 					</div>
 					<div class="relative">
 						<label
@@ -211,6 +243,7 @@ export default {
 			formData: {
 				name: "",
 				email: "",
+				phone_number: "",
 				password: "",
 				password_confirmation: "",
 			},
