@@ -1,18 +1,29 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
 	mode: "jit",
 	purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
-	darkMode: false, // or 'media' or 'class'
+	darkMode: "class", // or 'media' or 'class'
 	theme: {
-		extend: {},
+		extend: {
+			maxHeight: {
+				0: "0",
+				xl: "36rem",
+			},
+			fontFamily: {
+				sans: ["Inter", ...defaultTheme.fontFamily.sans],
+			},
+		},
 	},
 	variants: {
-        extend: {
-            backgroundColor: ['active'],
-        },
+		extend: {
+			backgroundColor: ["active", "odd"],
+			display: ["responsive"],
+			textColor: ["active"],
+		},
 	},
 	plugins: [
-		// require("@tailwindcss/forms")({
-		// 	strategy: "class",
-		// }),
+		require("@tailwindcss/forms")({
+			strategy: "class",
+		}),
 	],
 };
