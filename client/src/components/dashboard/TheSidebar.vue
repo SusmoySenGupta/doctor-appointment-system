@@ -19,7 +19,7 @@
 				Medica
 			</a>
 			<ul class="mt-6">
-				<li v-if="roleId == 1" class="relative px-6 py-3">
+				<li class="relative px-6 py-3">
 					<span
 						class="
 							absolute
@@ -46,7 +46,6 @@
 								dark:hover:text-gray-200
 								dark:text-gray-100
 							"
-							href="index.html"
 						>
 							<svg
 								class="w-5 h-5"
@@ -67,7 +66,7 @@
 					</router-link>
 				</li>
 				<li v-if="roleId == 1" class="relative px-6 py-3">
-					<router-link :to="{ name: 'admin.profile' }">
+					<router-link :to="{ name: 'admin.specialities' }">
 						<a
 							class="
 								inline-flex
@@ -75,28 +74,29 @@
 								w-full
 								text-sm
 								font-semibold
+								text-gray-800
 								transition-colors
 								duration-150
 								hover:text-gray-800
 								dark:hover:text-gray-200
+								dark:text-gray-100
 							"
-							href="forms.html"
 						>
 							<svg
-								class="w-5 h-5"
-								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
 								fill="none"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
 							>
 								<path
-									d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-								></path>
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+								/>
 							</svg>
-							<span class="ml-4">Profile</span>
+							<span class="ml-4">Speciality</span>
 						</a>
 					</router-link>
 				</li>
@@ -116,7 +116,7 @@
 					dark:bg-gray-700
 				"
 			>
-				{{ name }}
+				{{ roles[roleId - 1] }}
 			</span>
 		</div>
 	</aside>
@@ -127,6 +127,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 
 const isPagesMenuOpen = ref(false);
+const roles = ["Administrator", "Doctor", "Patient"];
 
 function togglePagesMenu() {
 	isPagesMenuOpen.value = !isPagesMenuOpen.value;
@@ -136,5 +137,4 @@ const store = useStore();
 
 const name = computed(() => store.state.currentUser.name);
 const roleId = computed(() => store.state.currentUser.role_id);
-
 </script>

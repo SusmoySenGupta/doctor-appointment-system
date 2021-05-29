@@ -18,9 +18,9 @@
 							dark:bg-gray-800
 						"
 					>
-						<th class="px-4 py-3">User</th>
-						<th class="px-4 py-3">Email</th>
-						<th class="px-4 py-3">Phone no</th>
+						<th class="px-4 py-3">#</th>
+						<th class="px-4 py-3">Name</th>
+						<th class="px-4 py-3">Created at</th>
 					</tr>
 				</thead>
 				<tbody
@@ -40,7 +40,6 @@
 							<div class="flex items-center text-sm">
 								<div class="flex flex-col gap-1">
 									<div class="w-20 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
-									<div class="w-16 h-2 bg-gray-100 dark:bg-gray-600"></div>
 								</div>
 							</div>
 						</td>

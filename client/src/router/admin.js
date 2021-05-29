@@ -12,11 +12,17 @@ export default [
 				meta: { requiresAuth: true, checkRole: CHECK_ROLE },
 			},
 			{
-				path: "profile",
-				name: "admin.profile",
-				component: () => import("../views/admin/profile.vue"),
+				path: "specialities",
+				name: "admin.specialities",
+				component: () => import("../views/admin/speciality/index.vue"),
 				meta: { requiresAuth: true, checkRole: CHECK_ROLE },
-			},
+            },
+            {
+				path: "specialities/create",
+				name: "admin.specialities.create",
+				component: () => import("../views/admin/speciality/create.vue"),
+				meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+            },
 		],
 	},
 ];
