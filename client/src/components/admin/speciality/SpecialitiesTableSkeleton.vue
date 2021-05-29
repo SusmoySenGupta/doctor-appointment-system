@@ -21,6 +21,7 @@
 						<th class="px-4 py-3">#</th>
 						<th class="px-4 py-3">Name</th>
 						<th class="px-4 py-3">Created at</th>
+						<th class="px-4 py-3">Action</th>
 					</tr>
 				</thead>
 				<tbody
@@ -39,18 +40,23 @@
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
 								<div class="flex flex-col gap-1">
-									<div class="w-20 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+									<div class="w-16 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 								</div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-sm">
 							<div class="flex flex-col gap-1">
-								<div class="w-28 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
 							<div class="flex flex-col gap-1">
 								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+							</div>
+						</td>
+                        <td class="px-4 py-3 text-xs">
+							<div class="flex flex-col gap-1">
+								<div class="w-12 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
 					</tr>

@@ -27,6 +27,6 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
     {
         Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
-        Route::resource('/specialities', SpecialityController::class)->only(['index', 'store']);
+        Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
     });
 });

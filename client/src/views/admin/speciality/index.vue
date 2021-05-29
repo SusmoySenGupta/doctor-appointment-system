@@ -42,7 +42,7 @@
 
 <script setup>
 import SpecialitiesTable from "../../../components/admin/speciality/SpecialitiesTable.vue";
-import SpecialitiesTableSkeleton from "../../../components/admin/table/AdminTableSkeleton.vue";
+import SpecialitiesTableSkeleton from "../../../components/admin/speciality/SpecialitiesTableSkeleton.vue";
 </script>
 
 <style></style>
