@@ -21,6 +21,7 @@
 						<th class="px-4 py-3">User</th>
 						<th class="px-4 py-3">Email</th>
 						<th class="px-4 py-3">Phone no</th>
+						<th class="px-4 py-3">Specialities</th>
 					</tr>
 				</thead>
 				<tbody
@@ -59,7 +60,13 @@
 						<td class="px-4 py-3 text-xs">
 							{{ doctor.phone_no ? doctor.phone_no : "N/A" }}
 						</td>
-
+                        <td class="px-4 py-3 text-xs">
+							<div class="w-40 grid grid-cols-3 gap-2">
+								<div v-for="speciality in doctor.specialities" :key="speciality" class="flex justify-center px-2.5 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                    {{ speciality.name }}
+                                </div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
