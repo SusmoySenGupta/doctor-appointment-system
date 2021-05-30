@@ -144,8 +144,6 @@
 							>
 								{{ speciality.name }}
 							</option>
-							<option value="2">B</option>
-							<option value="3">C</option>
 						</select>
 					</label>
 					<label class="block text-sm mt-4">
