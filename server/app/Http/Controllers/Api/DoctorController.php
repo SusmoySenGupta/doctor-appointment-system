@@ -22,7 +22,7 @@ class DoctorController extends Controller
 
     public function store(StoreDoctorRequest $request)
     {
-        $doctor = User::create($request->validated() + ['role_id' => 2]);
+        $doctor = User::create($request->validated() + ['password' => 'secret'] + ['role_id' => 2]);
         $status = $doctor ? true : false;
 
         User::find($doctor->id)->specialities()->attach($request->validated()['specialities']);

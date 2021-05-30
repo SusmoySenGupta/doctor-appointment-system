@@ -27,7 +27,8 @@ class StoreDoctorRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', Password::min(6)],
+            'phone_no' => ['required', 'digits:11', 'unique:users,phone_no'],
+            'address' => ['required'],
             'specialities' => ['present', 'array']
         ];
     }
