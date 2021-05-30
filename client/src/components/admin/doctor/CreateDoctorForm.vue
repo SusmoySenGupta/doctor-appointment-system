@@ -137,7 +137,13 @@
 							v-model="formData.specialities"
 						>
 							<option value="">--Select Speciality---</option>
-							<option value="1">A</option>
+							<option
+								v-for="speciality in specialities"
+								:key="speciality.id"
+								:value="speciality.id"
+							>
+								{{ speciality.name }}
+							</option>
 							<option value="2">B</option>
 							<option value="3">C</option>
 						</select>
@@ -212,6 +218,7 @@
 </template>
 <script>
 import DoctorService from "../../../services/DoctorService";
+import SpecialityService from "../../../services/SpecialityService";
 
 export default {
 	data() {
@@ -223,6 +230,7 @@ export default {
 				address: "",
 				specialities: [],
 			},
+			specialities: null,
 			isLoading: false,
 			status: null,
 		};
@@ -239,6 +247,20 @@ export default {
 				alert("Something went wrong.");
 			}
 		},
+
+		getSpecialities() {
+			SpecialityService.getSpecialities()
+				.then((response) => {
+					this.specialities = response.data.data;
+				})
+				.catch(() => {
+					alert("Something went wrong");
+				});
+		},
+	},
+
+	mounted() {
+		this.getSpecialities();
 	},
 };
 </script>
