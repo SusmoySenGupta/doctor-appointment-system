@@ -70,11 +70,12 @@
 							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
-							{{
+							<!-- {{
 								speciality.created_at
 									? speciality.created_at
 									: "N/A"
-							}}
+							}} -->
+                            {{ moment(speciality.created_at).fromNow() }}
 						</td>
 						<td class="px-4 py-3 text-xs">
 							<div class="flex items-center space-x-4 text-sm">
@@ -270,6 +271,7 @@
 <script>
 import SpecialityService from "../../../services/SpecialityService";
 import { ref } from "vue";
+import moment from 'moment';
 
 export default {
 	async setup() {
@@ -313,7 +315,8 @@ export default {
 			updateSpeciality,
 			isLoading,
 			formData,
-            successMessage
+            successMessage,
+            moment
 		};
 	},
 };
