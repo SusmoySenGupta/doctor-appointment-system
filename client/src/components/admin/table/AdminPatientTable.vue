@@ -18,10 +18,10 @@
 							dark:bg-gray-800
 						"
 					>
-						<th class="px-4 py-3">User(Doctor)</th>
+						<th class="px-4 py-3">User(Patient)</th>
 						<th class="px-4 py-3">Email</th>
 						<th class="px-4 py-3">Phone no</th>
-						<th class="px-4 py-3">Specialities</th>
+						<th class="px-4 py-3">Registerd At</th>
 					</tr>
 				</thead>
 				<tbody
@@ -34,14 +34,14 @@
 				>
 					<tr
 						class="text-gray-700 dark:text-gray-400"
-						v-for="doctor in doctors"
-						:key="doctor.id"
+						v-for="patient in patients"
+						:key="patient.id"
 					>
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
 								<div>
 									<p class="font-semibold">
-										{{ doctor.name ? doctor.name : "N/A" }}
+										{{ patient.name ? patient.name : "N/A" }}
 									</p>
 									<p
 										class="
@@ -49,23 +49,19 @@
 											dark:text-gray-400
 										"
 									>
-										Doctor
+										patient
 									</p>
 								</div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-sm">
-							{{ doctor.email ? doctor.email : "N/A" }}
+							{{ patient.email ? patient.email : "N/A" }}
 						</td>
 						<td class="px-4 py-3 text-xs">
-							{{ doctor.phone_no ? doctor.phone_no : "N/A" }}
+							{{ patient.phone_no ? patient.phone_no : "N/A" }}
 						</td>
                         <td class="px-4 py-3 text-xs">
-							<div class="w-40 grid grid-cols-3 gap-2">
-								<div v-for="speciality in doctor.specialities" :key="speciality" class="flex justify-center px-2.5 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
-                                    {{ speciality.name }}
-                                </div>
-							</div>
+							{{ moment(patient.created_at).fromNow() }}
 						</td>
 					</tr>
 				</tbody>
@@ -74,16 +70,18 @@
 	</div>
 </template>
 <script>
-import DoctorService from "../../../services/DoctorService";
+import patientService from "../../../services/patientService";
 import { ref } from "vue";
+import moment from 'moment';
 
 export default {
 	async setup() {
-		const response = ref(await DoctorService.getDoctors());
-		const doctors = response.value.data.data;
+		const response = ref(await patientService.getPatients());
+		const patients = response.value.data.data;
 
 		return {
-			doctors,
+			patients,
+            moment
 		};
 	},
 };

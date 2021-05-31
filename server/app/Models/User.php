@@ -57,6 +57,11 @@ class User extends Authenticatable
         return User::where('role_id', 2);
     }
 
+    public static function patients()
+    {
+        return User::where('role_id', 3);
+    }
+
     public function specialities()
     {
         return $this->belongsToMany(Speciality::class)
