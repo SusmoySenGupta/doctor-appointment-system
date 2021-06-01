@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\SpecialityController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,6 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
         Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
         Route::resource('/patients', PatientController::class)->only(['index']);
+        Route::resource('/make-admin', AdminController::class)->only(['update']);
     });
 });

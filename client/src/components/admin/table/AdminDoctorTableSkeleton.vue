@@ -22,6 +22,7 @@
 						<th class="px-4 py-3">Email</th>
 						<th class="px-4 py-3">Phone no</th>
 						<th class="px-4 py-3">Specialities</th>
+						<th class="px-4 py-3">Action</th>
 					</tr>
 				</thead>
 				<tbody
@@ -60,6 +61,11 @@
 								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
 								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
 								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
+							</div>
+						</td>
+                        <td class="px-4 py-3 text-xs">
+							<div class="flex flex-col gap-1">
+								<div class="w-24 h-7 rounded bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
 					</tr>

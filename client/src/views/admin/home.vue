@@ -54,8 +54,8 @@
 
 <script setup>
 import Card from "../../components/Card.vue";
-import AdminTable from "../../components/admin/table/AdminTable.vue";
-import AdminTableSkeleton from "../../components/admin/table/AdminTableSkeleton.vue";
+import AdminTable from "../../components/admin/table/AdminDoctorTable.vue";
+import AdminTableSkeleton from "../../components/admin/table/AdminDoctorTableSkeleton.vue";
 import AdminPatientTable from "../../components/admin/table/AdminPatientTable.vue";
 import AdminPatientTableSkeleton from "../../components/admin/table/AdminPatientTableSkeleton.vue";
 </script>

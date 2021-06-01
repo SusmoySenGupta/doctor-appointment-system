@@ -18,10 +18,10 @@
 							dark:bg-gray-800
 						"
 					>
-						<th class="px-4 py-3">User(Patient)</th>
+						<th class="px-4 py-3">User(Doctor)</th>
 						<th class="px-4 py-3">Email</th>
 						<th class="px-4 py-3">Phone no</th>
-						<th class="px-4 py-3">Registerd At</th>
+						<th class="px-4 py-3">Specialities</th>
 						<th
 							class="
 								px-4
@@ -60,16 +60,14 @@
 				>
 					<tr
 						class="text-gray-700 dark:text-gray-400"
-						v-for="patient in patients"
-						:key="patient.id"
+						v-for="doctor in doctors"
+						:key="doctor.id"
 					>
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
 								<div>
 									<p class="font-semibold">
-										{{
-											patient.name ? patient.name : "N/A"
-										}}
+										{{ doctor.name ? doctor.name : "N/A" }}
 									</p>
 									<p
 										class="
@@ -77,19 +75,39 @@
 											dark:text-gray-400
 										"
 									>
-										patient
+										Doctor
 									</p>
 								</div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-sm">
-							{{ patient.email ? patient.email : "N/A" }}
+							{{ doctor.email ? doctor.email : "N/A" }}
 						</td>
 						<td class="px-4 py-3 text-xs">
-							{{ patient.phone_no ? patient.phone_no : "N/A" }}
+							{{ doctor.phone_no ? doctor.phone_no : "N/A" }}
 						</td>
 						<td class="px-4 py-3 text-xs">
-							{{ moment(patient.created_at).fromNow() }}
+							<div class="w-40 grid grid-cols-3 gap-2">
+								<div
+									v-for="speciality in doctor.specialities"
+									:key="speciality"
+									class="
+										flex
+										justify-center
+										px-2.5
+										py-1
+										font-semibold
+										leading-tight
+										text-gray-700
+										bg-gray-100
+										rounded-full
+										dark:text-gray-100
+										dark:bg-gray-700
+									"
+								>
+									{{ speciality.name }}
+								</div>
+							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
 							<button
@@ -111,7 +129,7 @@
 									focus:outline-none
 									focus:shadow-outline-green
 								"
-								@click="makeAdmin(patient.id)"
+								@click="makeAdmin(doctor.id)"
 							>
 								Make him admin
 							</button>
@@ -123,15 +141,14 @@
 	</div>
 </template>
 <script>
-import PatientService from "../../../services/PatientService";
+import DoctorService from "../../../services/DoctorService";
 import AdminService from "../../../services/AdminService";
 import { ref, computed } from "vue";
-import moment from "moment";
 
 export default {
 	async setup() {
-		const response = ref(await PatientService.getPatients());
-		const patients = computed(() => response.value.data.data);
+		const response = ref(await DoctorService.getDoctors());
+		const doctors = computed(() => response.value.data.data);
 		const isLoading = ref(false);
 
 		function makeAdmin(id) {
@@ -142,8 +159,8 @@ export default {
 				isLoading.value = true;
 				AdminService.makeAdmin(id, formData)
 					.then(() => {
-						PatientService.getPatients().then((patientResponse) => {
-							response.value = patientResponse;
+						DoctorService.getDoctors().then((doctorResponse) => {
+							response.value = doctorResponse;
 							isLoading.value = false;
 						});
 					})
@@ -152,8 +169,7 @@ export default {
 		}
 
 		return {
-			patients,
-			moment,
+			doctors,
 			makeAdmin,
 			isLoading,
 		};
