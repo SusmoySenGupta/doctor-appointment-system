@@ -15,9 +15,21 @@ class SpecialitySeeder extends Seeder
     public function run()
     {
         Speciality::insert([
-            ['name' => 'Heart'],
-            ['name' => 'Brain'],
-            ['name' => 'Kidhey'],
+            [
+                'name'       => 'Heart',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'       => 'Brain',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name'       => 'Kidhey',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
     }

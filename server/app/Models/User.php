@@ -75,4 +75,10 @@ class User extends Authenticatable
         return $this->hasOne(BloodGroup::class);
     }
 
+    public function schedules()
+    {
+        return $this->hasMany('App\Models\Schedule');
+    }
+
+
 }
