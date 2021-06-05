@@ -1,38 +1,35 @@
 <template>
-	<div class="border">
-		<h2>Home Page->{{ user.name }}</h2>
-		<a
-			class="text-sm text-white px-3 py-1 bg-red-400 rounded"
-			href="#"
-			@click.prevent="logout"
-			>Logout</a
-		>
+	<div class="container px-6 mx-auto grid">
+		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+			Dashboard
+		</h2>
+
+		<DoctorCard></DoctorCard>
+		<suspense>
+			<template #default>
+				<AdminTable></AdminTable>
+			</template>
+			<template #fallback>
+				<AdminTableSkeleton />
+			</template>
+		</suspense>
+		<br />
+		<hr />
+		<br />
+		<suspense>
+			<template #default>
+				<DoctorAppointmentTable></DoctorAppointmentTable>
+			</template>
+			<template #fallback>
+				<DoctorAppointmentTableSkeleton />
+			</template>
+		</suspense>
 	</div>
 </template>
 
-<script>
-export default {
-	data() {
-		return {};
-	},
-	methods: {
-		logout() {
-			Store.dispatch("logout")
-				.then((response) => {
-					this.$router.push("/login");
-				})
-				.catch((error) => {
-					let errorMessage = error.response.data.message;
-					alert(errorMessage);
-				});
-		},
-	},
-	computed: {
-		user() {
-			return Store.getters.getCurrentUser;
-		},
-	},
-};
-</script>
+<script setup>
+import DoctorCard from "../../components/doctor/DoctorCard.vue";
+import DoctorAppointmentTable from "../../components/doctor/table/DoctorAppointmentTable.vue";
+import DoctorAppointmentTableSkeleton from "../../components/doctor/table/DoctorAppointmentTableSkeleton.vue";
 
-<style></style>
+</script>
