@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Appointment;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Doctor\UpdateGapRequest;
 use App\Http\Requests\Doctor\StoreDoctorRequest;
 
 class DoctorController extends Controller
@@ -29,6 +31,22 @@ class DoctorController extends Controller
 
         return response()->json([
             'data'   => $doctor,
+            'status' => $status,
+        ]);
+    }
+
+    public function update(UpdateGapRequest $request)
+    {
+        $appointment = Appointment::where('appointment_date', '>=', now())->first();
+        
+        if($appointment == null) {
+            $status = User::find(Auth()->user()->id)->update($request->validated());
+        }
+        else {
+            $status = false;
+        }
+        
+        return response()->json([
             'status' => $status,
         ]);
     }

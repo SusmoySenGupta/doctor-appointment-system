@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\AdminController;
-use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\Api\DoctorController;
-use App\Http\Controllers\Api\PatientController;
-use App\Http\Controllers\Api\SpecialityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\SpecialityController;
+use App\Http\Controllers\Api\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,8 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::group(['prefix' => 'doctor', 'as' => 'doctor.'], function ()
     {
         Route::resource('/appointments', AppointmentController::class)->only(['update']);
+        Route::resource('/schedules', ScheduleController::class)->only(['index', 'update']);
+        Route::put('/gap/update', [DoctorController::class, 'update']);
     });
 });
+

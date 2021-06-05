@@ -67,7 +67,7 @@
 							<button
 								type="button"
                                 @click="markAsChecked(appointment.id)"
-                                v-if="appointment.is_pending != 0"
+                                v-if="appointment.is_pending == 1 && moment(new Date()).diff(moment(appointment.appointment_date), 'days') == 0"
 								class="
 									px-3
 									py-1

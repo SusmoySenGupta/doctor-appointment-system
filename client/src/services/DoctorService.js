@@ -7,5 +7,9 @@ export default {
 
     saveDoctor(data) {
         return Api().post("/api/admin/doctors", data);
+    },
+
+    updateGap(data) {
+        return Api().put("/api/doctor/gap/update", data);
     }
 };
