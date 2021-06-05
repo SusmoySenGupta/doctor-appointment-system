@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\SpecialityController;
@@ -19,18 +20,31 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('register', [App\Http\Controllers\Api\AuthenticationController::class, 'register'])->name('register');
 
+
 Route::group(['middleware' => 'auth:api'], function ()
 {
+    //common routes for authenticated users
     Route::get('/user', function (Request $request)
     {
         return $request->user();
     });
 
+    Route::resource('/appointments', AppointmentController::class)->only(['index']);
+
+
+    //admin routes
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
     {
         Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
         Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
         Route::resource('/patients', PatientController::class)->only(['index']);
         Route::resource('/make-admin', AdminController::class)->only(['update']);
+    });
+
+    
+    //doctor routes
+    Route::group(['prefix' => 'doctor', 'as' => 'doctor.'], function ()
+    {
+        Route::resource('/appointments', AppointmentController::class)->only(['update']);
     });
 });

@@ -18,10 +18,12 @@
 							dark:bg-gray-800
 						"
 					>
-						<th class="px-4 py-3">Patient name</th>
+						<th class="px-4 py-3">Patient</th>
 						<th class="px-4 py-3">Email</th>
 						<th class="px-4 py-3">Phone no</th>
-						<th class="px-4 py-3">Address</th>
+						<th class="px-4 py-3">Date & Time</th>
+						<th class="px-4 py-3">Status</th>
+						<th class="px-4 py-3">Completed at</th>
 						<th class="px-4 py-3">Action</th>
 					</tr>
 				</thead>
@@ -48,7 +50,7 @@
 						</td>
 						<td class="px-4 py-3 text-sm">
 							<div class="flex flex-col gap-1">
-								<div class="w-28 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+								<div class="w-36 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
@@ -57,10 +59,18 @@
 							</div>
 						</td>
                         <td class="px-4 py-3 text-xs">
-							<div class="w-40 grid grid-cols-3">
-								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
-								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
-								<div class="w-12 h-5 px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"></div>
+							<div class="flex flex-col gap-1">
+								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+							</div>
+						</td>
+                        <td class="px-4 py-3 text-xs">
+							<div class="flex flex-col gap-1">
+								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
+							</div>
+						</td>
+                        <td class="px-4 py-3 text-xs">
+							<div class="flex flex-col gap-1">
+								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
                         <td class="px-4 py-3 text-xs">

@@ -143,6 +143,7 @@
 <script>
 import DoctorService from "../../../services/DoctorService";
 import AdminService from "../../../services/AdminService";
+import AppointmentService from "../../../services/AppointmentService";
 import { ref, computed } from "vue";
 
 export default {
@@ -150,6 +151,8 @@ export default {
 		const response = ref(await DoctorService.getDoctors());
 		const doctors = computed(() => response.value.data.data);
 		const isLoading = ref(false);
+
+        console.log(await AppointmentService.getAppointments());
 
 		function makeAdmin(id) {
 			if (confirm("Are you sure?")) {

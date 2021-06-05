@@ -3,19 +3,10 @@
 		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
 			Dashboard
 		</h2>
-
 		<DoctorCard></DoctorCard>
-		<suspense>
-			<template #default>
-				<AdminTable></AdminTable>
-			</template>
-			<template #fallback>
-				<AdminTableSkeleton />
-			</template>
-		</suspense>
-		<br />
-		<hr />
-		<br />
+        <h2 class="my-6 text-lg font-semibold text-gray-700 dark:text-gray-200">
+			Appointments
+		</h2>
 		<suspense>
 			<template #default>
 				<DoctorAppointmentTable></DoctorAppointmentTable>
