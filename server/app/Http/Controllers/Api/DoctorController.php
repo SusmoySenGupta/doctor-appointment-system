@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Day;
 use App\Models\User;
+use App\Models\Schedule;
 use App\Models\Appointment;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\UpdateGapRequest;
 use App\Http\Requests\Doctor\StoreDoctorRequest;
@@ -24,10 +27,24 @@ class DoctorController extends Controller
 
     public function store(StoreDoctorRequest $request)
     {
-        $doctor = User::create($request->validated() + ['password' => 'secret'] + ['role_id' => 2]);
+        $doctor = User::create($request->validated() + ['password' => 'secret'] + ['role_id' => 2] + ['gap' => 30]);
         $status = $doctor ? true : false;
 
         User::find($doctor->id)->specialities()->attach($request->validated()['specialities']);
+
+        $days = Day::all();
+
+        foreach($days as $day) {
+            Schedule::create([
+                'user_id'=> $doctor->id,
+                'day_id' => $day->id, 
+                'start_at' => '09:00', 
+                'end_at' => '06:00', 
+                'break_start_at' => '14:00', 
+                'break_end_at' => '15:00', 
+                'is_offday' => Str::lower($day->name)  == 'friday' ? true : false]);
+        }
+
 
         return response()->json([
             'data'   => $doctor,

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Day;
 use App\Models\User;
 use App\Models\Schedule;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class ScheduleSeeder extends Seeder
@@ -15,86 +17,28 @@ class ScheduleSeeder extends Seeder
      */
     public function run()
     {
-        $doctors = User::doctors()->limit(2)->get();
-        Schedule::insert([
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 1,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 2,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 3,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 4,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 5,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 6,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => false,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
-            [
-                'user_id' => $doctors[0]['id'],
-                'day_id' => 7,
-                'start_at' => "09:00",
-                'end_at' => "06:00",
-                'break_start_at' => "02:00",
-                'break_end_at' => "03:00",
-                'is_offday' => true,
-                'created_at'    => now(),
-                'updated_at'     => now(),
-            ],
+        $doctors = User::doctors()->get();
+        $days    = Day::all();
 
-        ]);
+        foreach ($doctors as $doctor)
+        {
+            foreach ($days as $day)
+            {
+                Schedule::create(
+                    [
+                        'user_id'        => $doctor->id,
+                        'day_id'         => $day->id,
+                        'start_at'       => '09:00',
+                        'end_at'         => '18:00',
+                        'break_start_at' => '14:00',
+                        'break_end_at'   => '15:00',
+                        'is_offday'      => Str::lower($day->name)  == 'friday' ? 1 : 0,
+                        'created_at'     => now(),
+                        'updated_at'     => now(),
+                    ],
+                );
+            }
+        }
+
     }
 }

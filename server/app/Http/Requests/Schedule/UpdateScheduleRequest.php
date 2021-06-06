@@ -24,9 +24,9 @@ class UpdateScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_at' => ['required', 'date_format:H:i:s'],
+            'start_at' => ['required'],
             'end_at' => ['required', 'after:start_at'],
-            'break_start_at' => ['required', 'date_format:H:i:s', 'after:start_at'],
+            'break_start_at' => ['required', 'after:start_at'],
             'break_end_at' => ['required', 'after:break_start_at'],
             'is_offday' => ['required', 'boolean'],
         ];

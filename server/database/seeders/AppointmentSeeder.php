@@ -22,7 +22,7 @@ class AppointmentSeeder extends Seeder
             [
                 'doctor_id'        => $doctor->id,
                 'patient_id'       => $patient->id,
-                'appointment_date' => '2021-06-05',
+                'appointment_date' => now()->format('Y-m-d'),
                 'start_at'         => '11:00',
                 'end_at'           => '11:30',
                 'is_pending'       => true,
