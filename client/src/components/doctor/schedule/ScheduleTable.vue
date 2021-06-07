@@ -46,9 +46,9 @@
 					>
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
-								<div>
-									<p class="font-semibold">
-										{{ schedule.day_name }}
+								<div v-for="day in days" :key="day.id">
+									<p class="font-semibold" v-if="day.id == schedule.day_id">
+										{{ day.name }}
 									</p>
 								</div>
 							</div>
@@ -181,6 +181,7 @@ export default {
 	async setup() {
 		const response = ref(await ScheduleService.getSchedules());
 		const schedules = computed(() =>  response.value.data.schedules);
+		const days = computed(() =>  response.value.data.days);
         const gaps = ['10', '20','30', '40','50', '60'];
         const timeGap = ref(response.value.data.gap);
 		const has_appointment = computed(() => response.value.data.has_appointment);
@@ -196,6 +197,16 @@ export default {
             is_offday: false,
         });
         const isModalOpen = ref(false);
+
+        function getDay(id){
+            days.value.forEach((day) => {
+                if(day.id == id)
+                    console.log(day.name);
+                    return day.name;
+            })
+        }
+
+
 
        function openModel(index) {
 			formData.value.id = schedules.value[index].id;
@@ -261,6 +272,8 @@ export default {
             updateGap,
 			isLoading,
             successMessage,
+            getDay,
+            days,
             moment
 		};
 	},

@@ -15,10 +15,10 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->constrained();
-            $table->foreignId('patient_id')->constrained();
+            $table->foreignId('doctor_id');
+            $table->foreignId('patient_id');
             $table->foreignId('appointment_id')->constrained();
-            $table->text('description')->constrained();
+            $table->text('description');
             $table->timestamps();
         });
     }

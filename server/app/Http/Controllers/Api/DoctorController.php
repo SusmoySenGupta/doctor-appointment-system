@@ -39,7 +39,7 @@ class DoctorController extends Controller
                 'user_id'=> $doctor->id,
                 'day_id' => $day->id, 
                 'start_at' => '09:00', 
-                'end_at' => '06:00', 
+                'end_at' => '18:00', 
                 'break_start_at' => '14:00', 
                 'break_end_at' => '15:00', 
                 'is_offday' => Str::lower($day->name)  == 'friday' ? true : false]);

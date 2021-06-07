@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Day;
-use App\Models\User;
-use App\Models\Schedule;
-use App\Models\Appointment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Schedule\UpdateScheduleRequest;
+use App\Models\Appointment;
+use App\Models\Day;
+use App\Models\Schedule;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
@@ -20,21 +19,17 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = DB::table('schedules')
-            ->join('days', 'schedules.id', '=', 'days.id')
-            ->where('schedules.user_id', Auth()->user()->id)
-            ->select('schedules.*', 'days.name as day_name')
-            ->get();
-        $gap  = Auth()->user()->gap;
-
+        $schedules   = Schedule::where('user_id', Auth()->user()->id)->get();
+        $days        = Day::all();
+        $gap         = Auth()->user()->gap;
         $appointment = Appointment::where('appointment_date', '>=', now())->first();
-
-        $status = sizeof($schedules) && !is_null($gap) ? true : false;
+        $status      = sizeof($schedules) && !is_null($gap) ? true : false;
 
         return response()->json([
-            'schedules' => $schedules,
-            'gap'       => $gap,
-            'status'    => $status,
+            'schedules'       => $schedules,
+            'days'            => $days,
+            'gap'             => $gap,
+            'status'          => $status,
             'has_appointment' => $appointment ? true : false,
         ]);
     }
@@ -93,14 +88,17 @@ class ScheduleController extends Controller
     {
         $appointment = Appointment::where('appointment_date', '>=', now())->first();
 
-        if($appointment == null) {
+        if ($appointment == null)
+        {
             $status = $schedule->update($request->validated());
         }
-        else {
+        else
+        {
             $status = false;
         }
+
         return response()->json([
-            'status' => $status
+            'status' => $status,
         ]);
     }
 

@@ -15,8 +15,8 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->constrained();
-            $table->foreignId('patient_id')->constrained();
+            $table->foreignId('doctor_id');
+            $table->foreignId('patient_id');
             $table->date('appointment_date');
             $table->time('start_at');
             $table->time('end_at');
