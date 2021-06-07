@@ -1,41 +1,26 @@
 <template>
-	<div class="border">
-		<h2>Home Page->{{ user.name }}</h2>
-		<a
-			class="text-sm text-white px-3 py-1 bg-red-400 rounded"
-			href="#"
-			@click.prevent="logout"
-			>Logout</a
-		>
+	<div class="container px-6 mx-auto grid">
+		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+			Dashboard
+		</h2>
+		<DoctorCard></DoctorCard>
+        <h2 class="my-6 text-lg font-semibold text-gray-700 dark:text-gray-200">
+			Appointments
+		</h2>
+		<suspense>
+			<template #default>
+				<PatientAppointmentTable></PatientAppointmentTable>
+			</template>
+			<template #fallback>
+				<PatientAppointmentTableSkeleton />
+			</template>
+		</suspense>
 	</div>
 </template>
 
-<script>
-export default {
-	data() {
-		return {
-            
-        };
-	},
-	methods: {
-		logout() {
-			Store.dispatch("logout")
-				.then((response) => {
-					this.$router.push("/login");
-				})
-				.catch((error) => {
-					let errorMessage = error.response.data.message;
-					alert(errorMessage);
-				});
-		},
-	},
+<script setup>
+import DoctorCard from "../../components/doctor/DoctorCard.vue";
+import PatientAppointmentTable from "../../components/patient/table/PatientAppointmentTable.vue";
+import PatientAppointmentTableSkeleton from "../../components/patient/table/PatientAppointmentTableSkeleton.vue";
 
-    computed: {
-        user() {
-            return Store.getters.getCurrentUser;
-        }
-    }
-};
 </script>
-
-<style></style>

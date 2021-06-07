@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DaySeeder::class);
         $this->call(ScheduleSeeder::class);
         $this->call(AppointmentSeeder::class);
-        $this->call(FeedbackSeeder::class);
 
         $specialities = Speciality::all();
         User::doctors()->get()->each(function ($user) use ($specialities)

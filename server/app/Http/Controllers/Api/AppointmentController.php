@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Appointment\UpdateFeedbackRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class AppointmentController extends Controller
         else if (Auth()->user()->role_id == 3)
         {
             $appointments = DB::table('users')
-                ->join('appointments', 'users.id', '=', 'appointments.patient_id')
+                ->join('appointments', 'users.id', '=', 'appointments.doctor_id')
                 ->where('appointments.patient_id', Auth()->user()->id)
                 ->select(
                     'users.name as doctor_name',
@@ -131,5 +132,20 @@ class AppointmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function saveFeedback(UpdateFeedbackRequest $request, $id)
+    {
+        $appointment = Appointment::findOrFail($id);
+
+        if(is_null($appointment->feedback)){
+            $status = $appointment->update($request->validated());
+        }
+        else {
+            $status = false;
+        }
+        return response()->json([
+            'status' => $status,
+        ]);
     }
 }

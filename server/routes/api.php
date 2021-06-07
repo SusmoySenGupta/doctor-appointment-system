@@ -29,7 +29,6 @@ Route::group(['middleware' => 'auth:api'], function ()
     {
         return $request->user();
     });
-
     Route::resource('/appointments', AppointmentController::class)->only(['index']);
 
 
@@ -49,6 +48,13 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::resource('/appointments', AppointmentController::class)->only(['update']);
         Route::resource('/schedules', ScheduleController::class)->only(['index', 'update']);
         Route::put('/gap/update', [DoctorController::class, 'update']);
+    });
+
+
+    //patient routes
+    Route::group(['prefix' => 'patient', 'as' => 'patient.'], function ()
+    {
+        Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
     });
 });
 

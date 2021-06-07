@@ -7,6 +7,10 @@ export default {
 
     markAsChecked(id) {
         return Api().put("/api/doctor/appointments/" + id);
+    },
+
+    saveFeedback(id, data) {
+        return Api().put("/api/patient/appointments/feedback/" + id, data);
     }
 
 };

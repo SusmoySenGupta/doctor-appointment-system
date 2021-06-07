@@ -17,5 +17,6 @@ class Appointment extends Model
         'end_at',
         'is_pending',
         'checked_at',
+        'feedback',
     ];
 }
