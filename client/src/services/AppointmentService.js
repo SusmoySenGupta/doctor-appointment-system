@@ -11,6 +11,10 @@ export default {
 
     saveFeedback(id, data) {
         return Api().put("/api/patient/appointments/feedback/" + id, data);
+    },
+
+    makeAppointment(data) {
+        return Api().post("/api/patient/appointments", data);
     }
 
 };

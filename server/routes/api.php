@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::group(['prefix' => 'patient', 'as' => 'patient.'], function ()
     {
         Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
+        Route::post('/appointments', [AppointmentController::class, 'store']);
+        Route::get('/getDoctorSchedule/{doctor_id}/{date}', [ScheduleController::class, 'getDoctorSchedule']);
     });
 });
-

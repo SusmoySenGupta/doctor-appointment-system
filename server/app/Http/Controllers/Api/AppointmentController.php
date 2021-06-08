@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Appointment\UpdateFeedbackRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Appointment\UpdateFeedbackRequest;
+use App\Http\Requests\Appointment\StoreAppointmentRequest;
 
 class AppointmentController extends Controller
 {
@@ -80,9 +81,14 @@ class AppointmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAppointmentRequest $request)
     {
-        //
+        $appointment = Appointment::create($request->validated() + ['patient_id' => Auth()->user()->id]);
+        $status = $appointment ? true : false;
+
+        return response()->json([
+            'status' => $status
+        ]);
     }
 
     /**

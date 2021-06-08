@@ -1,0 +1,152 @@
+<template>
+	<div class="w-full overflow-hidden rounded-lg shadow-xs">
+		<div class="w-full overflow-x-auto">
+			<div class=" px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+				<form @submit.prevent="makeAppointment()" class="flex flex-col gap-4">
+					<label class="block text-sm">
+						<span class="text-gray-700 dark:text-gray-400">
+							Select a doctor
+						</span>
+						<select v-model="formData.doctor_id" @change="getTimingSchedules()" required class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
+                            <option value="null">--Select Doctor--</option>
+                            <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">
+                                {{ doctor.name }}
+                            </option>
+                        </select>
+					</label>
+                    <label class="block text-sm" v-if="formData.doctor_id != null">
+						<span class="text-gray-700 dark:text-gray-400">
+							Select a date
+						</span>
+						<input type="date" v-model="formData.appointment_date" @change="getTimingSchedules()" required :min="moment().format('YYYY-MM-DD')" :max="moment().add(1, 'w').format('YYYY-MM-DD')" class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-input focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500" />  
+					</label>
+                    <span v-if="isTimingScheduleLoading">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 animate-spin" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                    </span>
+                    <label class="block text-sm" v-if="formData.doctor_id != null && formData.appointment_date != null && isTimingScheduleLoading == false">
+						<span class="text-gray-700 dark:text-gray-400">
+							Select a time
+						</span>
+						<select v-model="time_id" required class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
+                            <option value="-1">--Select Time--</option>
+                            <option v-for="(time,index) in timingSchedules" :key="index" :value="index">
+                                {{ time }}
+                            </option>
+                        </select>
+					</label>
+					<label class="block text-sm">
+						<div class="mb-2">
+							<button type="submit" v-if="formData.doctor_id != null && formData.appointment_date != null && time_id != -1" class=" w-auto flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+								<span>Make Appointment</span>
+								<span v-if="isLoading">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" viewBox="0 0 20 20" fill="currentColor">
+										<path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+									</svg>
+								</span>
+							</button>
+						</div>
+					</label>
+					<div>
+                        <span
+                            v-if="saved"
+                            class="
+                                text-sm
+                                px-2
+                                py-1
+                                font-semibold
+                                leading-tight
+                                text-green-700
+                                bg-green-100
+                                rounded-full
+                                dark:bg-green-700
+                                dark:text-green-100
+                            "
+                        >
+                            Save Successfull
+                        </span>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+import DoctorService from "../../../services/DoctorService";
+import AppointmentService from "../../../services/AppointmentService";
+import ScheduleService from "../../../services/ScheduleService";
+import { ref, computed } from "vue";
+import moment from 'moment';
+
+export default {
+	async setup() {
+        const doctorsResponse = ref(await DoctorService.getDoctors());
+		const doctors = computed(() => doctorsResponse.value.data.data);
+        const timingSchedules = ref({});
+		const isTimingScheduleLoading = ref(false);
+		const isLoading = ref(false);
+		const saved = ref(false);
+        const time_id = ref(-1);
+        const formData = ref({doctor_id: null, appointment_date: null, start_at: "", end_at: ""});
+        
+        function getTimingSchedules()
+        {
+            if(formData.value.doctor_id !== null && formData.value.appointment_date !== null)
+            {
+                saved.value = false;
+                isTimingScheduleLoading.value = true;
+                ScheduleService.getTimingSchedules(formData.value.doctor_id, formData.value.appointment_date)
+                .then((response) => {
+                    isTimingScheduleLoading.value = false;
+                    timingSchedules.value = response.data.times
+                })
+                .catch((error) => {
+                    isTimingScheduleLoading.value = false;
+                    alert(error);
+                })
+            }
+        }
+
+        function makeAppointment() {
+            if(formData.value.doctor_id !== null && formData.value.appointment_date !== null)
+            {
+                isLoading.value = true;
+                let timeArr = timingSchedules.value[time_id.value].split("-");
+                formData.value.start_at = timeArr[0];
+                formData.value.end_at = timeArr[1];
+
+                AppointmentService.makeAppointment(formData.value)
+                .then((makeAppointmentResponse) => {
+                    isLoading.value = false;
+                    saved.value = makeAppointmentResponse.data.status;
+                    formData.value.doctor_id = null;
+                    formData.value.appointment_date = null;
+                    formData.value.start_at = "";
+                    formData.value.end_at = "";
+                    time_id.value = -1;
+                })
+                .catch((error) => {
+                    isLoading.value = false;
+                    saved.value = false;
+                    alert(error);
+                });
+            }
+        }
+
+
+		return {
+            doctors,
+            formData,
+            timingSchedules,
+            time_id,
+            isTimingScheduleLoading,
+            isLoading,
+            saved,
+            getTimingSchedules,
+            makeAppointment,
+            moment
+		};
+	},
+};
+</script>

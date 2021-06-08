@@ -112,4 +112,47 @@ class ScheduleController extends Controller
     {
         //
     }
+
+    public function getDoctorSchedule($doctor_id, $date)
+    {
+        $appointments = Appointment::where('doctor_id', $doctor_id)->where('appointment_date', $date)
+            ->select('start_at', 'end_at')
+            ->get();
+
+        $gap             = User::find($doctor_id)->gap;
+        $day_id          = Day::where('name', date('l', strtotime($date)))->pluck('id');
+        $doctor_schedule = Schedule::where('user_id', $doctor_id)
+            ->where('day_id', $day_id)
+            ->where('is_offday', 0)
+            ->select('start_at', 'end_at', 'break_start_at', 'break_end_at')
+            ->first();
+
+        $times = collect([]);
+
+        if (!is_null($doctor_schedule))
+        {
+            $start_at       = date('H:i', strtotime($doctor_schedule->start_at));
+            $end_at         = date('H:i', strtotime($doctor_schedule->end_at));
+            $break_start_at = date('H:i', strtotime($doctor_schedule->break_start_at));
+            $break_end_at   = date('H:i', strtotime($doctor_schedule->break_end_at));
+
+            for ($i = 0; $start_at < $end_at; $i++)
+            {
+                $shift_start = $start_at;
+                $shift_end   = date('H:i', strtotime($start_at) + 60 * $gap);
+
+                if (($start_at < $break_start_at || $start_at >= $break_end_at)
+                    && (!$appointments->contains('start_at', date('H:i:s', strtotime($start_at)))))
+                {
+                    $times->push($shift_start . '-' . $shift_end);
+                }
+
+                $start_at = date('H:i', strtotime($start_at) + 60 * $gap);
+            }
+        }
+
+        return response()->json([
+            'times'        => $times,
+        ]);
+    }
 }
