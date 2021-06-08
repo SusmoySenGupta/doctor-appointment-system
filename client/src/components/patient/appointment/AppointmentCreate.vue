@@ -25,7 +25,7 @@
                             <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
                         </svg>
                     </span>
-                    <label class="block text-sm" v-if="formData.doctor_id != null && formData.appointment_date != null && isTimingScheduleLoading == false">
+                    <label class="block text-sm" v-if="formData.doctor_id != null && formData.appointment_date != null && isTimingScheduleLoading == false && timingSchedules.length > 0">
 						<span class="text-gray-700 dark:text-gray-400">
 							Select a time
 						</span>
@@ -36,6 +36,11 @@
                             </option>
                         </select>
 					</label>
+                    <label class="block text-sm text-center" v-if="timingSchedules.length == 0">
+						<div class="mt-4 animate-pulse">
+                            You might have appointments in this day.
+                        </div>
+                    </label>
 					<label class="block text-sm">
 						<div class="mb-2">
 							<button type="submit" v-if="formData.doctor_id != null && formData.appointment_date != null && time_id != -1" class=" w-auto flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
@@ -99,7 +104,8 @@ export default {
                 ScheduleService.getTimingSchedules(formData.value.doctor_id, formData.value.appointment_date)
                 .then((response) => {
                     isTimingScheduleLoading.value = false;
-                    timingSchedules.value = response.data.times
+                    timingSchedules.value = response.data.times;
+                    console.log(response.data);
                 })
                 .catch((error) => {
                     isTimingScheduleLoading.value = false;

@@ -46,38 +46,45 @@ class ScheduleController extends Controller
 
     public function getDoctorSchedule($doctor_id, $date)
     {
-        $appointments = Appointment::where('doctor_id', $doctor_id)->where('appointment_date', $date)
-            ->select('start_at', 'end_at')
+        $patient_appointments = Appointment::where('patient_id', Auth()->user()->id)
+            ->where('appointment_date', $date)
             ->get();
-
-        $gap             = User::find($doctor_id)->gap;
-        $day_id          = Day::where('name', date('l', strtotime($date)))->pluck('id');
-        $doctor_schedule = Schedule::where('user_id', $doctor_id)
-            ->where('day_id', $day_id)
-            ->where('is_offday', 0)
-            ->first();
 
         $times = collect([]);
 
-        if (!is_null($doctor_schedule))
+        if ($patient_appointments->count() < 2 && $patient_appointments->where('doctor_id', $doctor_id)->count() == 0)
         {
-            $start_at       = date('H:i', strtotime($doctor_schedule->start_at));
-            $end_at         = date('H:i', strtotime($doctor_schedule->end_at));
-            $break_start_at = date('H:i', strtotime($doctor_schedule->break_start_at));
-            $break_end_at   = date('H:i', strtotime($doctor_schedule->break_end_at));
+            $appointments = Appointment::where('doctor_id', $doctor_id)->where('appointment_date', $date)
+                ->select('start_at', 'end_at')
+                ->get();
 
-            for ($i = 0; $start_at < $end_at; $i++)
+            $gap             = User::find($doctor_id)->gap;
+            $day_id          = Day::where('name', date('l', strtotime($date)))->pluck('id');
+            $doctor_schedule = Schedule::where('user_id', $doctor_id)
+                ->where('day_id', $day_id)
+                ->where('is_offday', 0)
+                ->first();
+
+            if (!is_null($doctor_schedule))
             {
-                $shift_start = $start_at;
-                $shift_end   = date('H:i', strtotime($start_at) + 60 * $gap);
+                $start_at       = date('H:i', strtotime($doctor_schedule->start_at));
+                $end_at         = date('H:i', strtotime($doctor_schedule->end_at));
+                $break_start_at = date('H:i', strtotime($doctor_schedule->break_start_at));
+                $break_end_at   = date('H:i', strtotime($doctor_schedule->break_end_at));
 
-                if (($start_at < $break_start_at || $start_at >= $break_end_at)
-                    && (!$appointments->contains('start_at', date('H:i:s', strtotime($start_at)))))
+                for ($i = 0; $start_at < $end_at; $i++)
                 {
-                    $times->push($shift_start . '-' . $shift_end);
-                }
+                    $shift_start = $start_at;
+                    $shift_end   = date('H:i', strtotime($start_at) + 60 * $gap);
 
-                $start_at = date('H:i', strtotime($start_at) + 60 * $gap);
+                    if (($start_at < $break_start_at || $start_at >= $break_end_at)
+                        && (!$appointments->contains('start_at', date('H:i:s', strtotime($start_at)))))
+                    {
+                        $times->push($shift_start . '-' . $shift_end);
+                    }
+
+                    $start_at = date('H:i', strtotime($start_at) + 60 * $gap);
+                }
             }
         }
 
