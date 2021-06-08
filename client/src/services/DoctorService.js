@@ -2,14 +2,14 @@ import Api from "./ApiService";
 
 export default {
     getDoctors() {
-        return Api().get("/api/admin/doctors");
+        return Api().get("get-doctors");
     },
 
     saveDoctor(data) {
-        return Api().post("/api/admin/doctors", data);
+        return Api().post("admin/doctor/store", data);
     },
 
     updateGap(data) {
-        return Api().put("/api/doctor/gap/update", data);
+        return Api().put("doctor/gap/update", data);
     }
 };

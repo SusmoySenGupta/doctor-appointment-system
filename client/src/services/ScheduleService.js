@@ -2,14 +2,14 @@ import Api from "./ApiService";
 
 export default {
     getSchedules() {
-        return Api().get("/api/doctor/schedules");
+        return Api().get("doctor/get-schedules");
     },
 
     updateSchedule(id, schedule) {
-        return Api().put("/api/doctor/schedules/" + id, schedule);
+        return Api().put("doctor/schedules/update/" + id, schedule);
     },
 
     getTimingSchedules(doctor_id, date) {
-        return Api().get("/api/patient/getDoctorSchedule/" + doctor_id + "/" + date);
+        return Api().get("patient/get-doctor-schedule/" + doctor_id + "/" + date);
     }
 };

@@ -1,61 +1,47 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SpecialityController;
-use App\Http\Controllers\Api\AppointmentController;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
- */
-Route::post('register', [App\Http\Controllers\Api\AuthenticationController::class, 'register'])->name('register');
-
+//Registration for patients
+Route::post('register', [AuthenticationController::class, 'register']);
 
 Route::group(['middleware' => 'auth:api'], function ()
 {
-    //common routes for authenticated users
-    Route::get('/user', function (Request $request)
-    {
-        return $request->user();
-    });
-    Route::resource('/appointments', AppointmentController::class)->only(['index']);
-
+    //common routes for all authenticated users
+    Route::get('/user', [AuthenticationController::class, 'getUser']);
+    Route::get('/get-appointments', [AppointmentController::class, 'index']);
+    Route::get('/get-doctors', [DoctorController::class, 'index']);
 
     //admin routes
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function ()
+    Route::group(['prefix' => 'admin'], function ()
     {
-        Route::resource('/doctors', DoctorController::class)->only(['index', 'store', 'show']);
+        Route::put('/make-admin/{id}', [AdminController::class, 'makeAdmin']);
+        Route::post('/doctor/store', [DoctorController::class, 'store']);
+        Route::get('/get-patients', [PatientController::class, 'index']);
         Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
-        Route::resource('/patients', PatientController::class)->only(['index']);
-        Route::resource('/make-admin', AdminController::class)->only(['update']);
     });
 
-    
     //doctor routes
-    Route::group(['prefix' => 'doctor', 'as' => 'doctor.'], function ()
+    Route::group(['prefix' => 'doctor'], function ()
     {
-        Route::resource('/appointments', AppointmentController::class)->only(['update']);
-        Route::resource('/schedules', ScheduleController::class)->only(['index', 'update']);
-        Route::put('/gap/update', [DoctorController::class, 'update']);
+        Route::put('/appointments/mark-as-checked/{id}', [AppointmentController::class, 'markAsChecked']);
+        Route::put('/gap/update', [DoctorController::class, 'updateGap']);
+        Route::get('/get-schedules', [ScheduleController::class, 'index']);
+        Route::put('/schedules/update/{schedule}', [ScheduleController::class, 'update']);
     });
-
 
     //patient routes
     Route::group(['prefix' => 'patient', 'as' => 'patient.'], function ()
     {
         Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
-        Route::post('/appointments', [AppointmentController::class, 'store']);
-        Route::get('/getDoctorSchedule/{doctor_id}/{date}', [ScheduleController::class, 'getDoctorSchedule']);
+        Route::post('/appointments/store', [AppointmentController::class, 'store']);
+        Route::get('/get-doctor-schedule/{doctor_id}/{date}', [ScheduleController::class, 'getDoctorSchedule']);
     });
 });

@@ -18,9 +18,4 @@ class Schedule extends Model
         'break_end_at',
         'is_offday',
     ];
-
-    public function days()
-    {
-        $this->belongsTo('App\Models\Day');
-    }
 }

@@ -2,19 +2,18 @@ import Api from "./ApiService";
 
 export default {
     getAppointments() {
-        return Api().get("/api/appointments");
+        return Api().get("get-appointments");
     },
 
     markAsChecked(id) {
-        return Api().put("/api/doctor/appointments/" + id);
+        return Api().put("doctor/appointments/mark-as-checked/" + id);
     },
 
     saveFeedback(id, data) {
-        return Api().put("/api/patient/appointments/feedback/" + id, data);
+        return Api().put("patient/appointments/feedback/" + id, data);
     },
 
     makeAppointment(data) {
-        return Api().post("/api/patient/appointments", data);
+        return Api().post("patient/appointments/store", data);
     }
-
 };

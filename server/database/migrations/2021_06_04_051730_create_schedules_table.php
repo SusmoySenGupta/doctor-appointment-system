@@ -17,10 +17,10 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('day_id')->constrained();
-            $table->time('start_at');
-            $table->time('end_at');
-            $table->time('break_start_at')->nullable();
-            $table->time('break_end_at')->nullable();
+            $table->time('start_at')->default('09:00');
+            $table->time('end_at')->default('18:00');
+            $table->time('break_start_at')->nullable()->default('14:00');
+            $table->time('break_end_at')->nullable()->default('15:00');
             $table->boolean('is_offday')->default(false);
             $table->timestamps();
         });
