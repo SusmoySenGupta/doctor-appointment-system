@@ -1,21 +1,8 @@
 <template>
 	<aside
-		class="
-			z-20
-			hidden
-			w-64
-			overflow-y-auto
-			bg-white
-			dark:bg-gray-800
-			md:block
-			flex-shrink-0
-		"
-	>
+		class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
 		<div class="py-4 text-gray-500 dark:text-gray-400">
-			<a
-				class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-				href="#"
-			>
+			<a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
 				5MG
 			</a>
 			<ul class="mt-6">
@@ -217,38 +204,17 @@
 			</ul>
 		</div>
 		<div class="ml-6 text-sm dark:text-gray-50">
-			<span
-				class="
-					px-2
-					py-1
-					font-semibold
-					leading-tight
-					text-gray-700
-					bg-gray-100
-					rounded-full
-					dark:text-gray-100
-					dark:bg-gray-700
-				"
-			>
+			<span class=" px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
 				{{ roles[roleId - 1] }}
 			</span>
 		</div>
 	</aside>
 </template>
 <script setup>
-import { ref } from "vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
-const isPagesMenuOpen = ref(false);
 const roles = ["Administrator", "Doctor", "Patient"];
-
-function togglePagesMenu() {
-	isPagesMenuOpen.value = !isPagesMenuOpen.value;
-}
-
 const store = useStore();
-
-const name = computed(() => store.state.currentUser.name);
-const roleId = computed(() => store.state.currentUser.role_id);
+const roleId = computed(() => store.state.currentUser ? store.state.currentUser.role_id : 0);
 </script>

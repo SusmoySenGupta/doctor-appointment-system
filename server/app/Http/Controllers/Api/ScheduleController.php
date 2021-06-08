@@ -22,8 +22,9 @@ class ScheduleController extends Controller
         $schedules   = Schedule::where('user_id', Auth()->user()->id)->get();
         $days        = Day::all();
         $gap         = Auth()->user()->gap;
-        $appointment = Appointment::where('appointment_date', '>=', now())->first();
-        $status      = sizeof($schedules) && !is_null($gap) ? true : false;
+        $appointment = Appointment::where('doctor_id', Auth()->user()->id)
+            ->where('appointment_date', '>=', now())->first();
+        $status = sizeof($schedules) && !is_null($gap) ? true : false;
 
         return response()->json([
             'schedules'       => $schedules,
@@ -86,7 +87,8 @@ class ScheduleController extends Controller
      */
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
-        $appointment = Appointment::where('appointment_date', '>=', now())->first();
+        $appointment = Appointment::where('doctor_id', Auth()->user()->id)
+            ->where('appointment_date', '>=', now())->first();
 
         if ($appointment == null)
         {
@@ -152,7 +154,7 @@ class ScheduleController extends Controller
         }
 
         return response()->json([
-            'times'        => $times,
+            'times' => $times,
         ]);
     }
 }
