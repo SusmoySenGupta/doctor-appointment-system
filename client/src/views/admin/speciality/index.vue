@@ -6,29 +6,31 @@
 			Specialities
 		</h2>
 
-		<router-link :to="{ name: 'admin.specialities.create' }" class="mb-4">
-			<a
-				class="
-					px-3
-					py-2
-					text-sm
-					font-medium
-					leading-5
-					text-white
-					transition-colors
-					duration-150
-					bg-purple-600
-					border border-transparent
-					rounded-lg
-					active:bg-purple-600
-					hover:bg-purple-700
-					focus:outline-none
-					focus:shadow-outline-purple
-				"
-			>
-				Add Speciality
-			</a>
-		</router-link>
+        <div class="mb-4">
+            <router-link :to="{ name: 'admin.specialities.create' }" >
+                <a
+                    class="
+                        px-3
+                        py-2
+                        text-sm
+                        font-medium
+                        leading-5
+                        text-white
+                        transition-colors
+                        duration-150
+                        bg-purple-600
+                        border border-transparent
+                        rounded-lg
+                        active:bg-purple-600
+                        hover:bg-purple-700
+                        focus:outline-none
+                        focus:shadow-outline-purple
+                    "
+                >
+                    Add Speciality
+                </a>
+            </router-link>
+        </div>
 		<suspense>
 			<template #default>
 				<SpecialitiesTable></SpecialitiesTable>

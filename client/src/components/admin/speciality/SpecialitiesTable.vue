@@ -1,23 +1,12 @@
 <template>
-	<div class="w-full overflow-hidden rounded-lg shadow-xs">
-		<div class="w-full overflow-x-auto">
-			<span
-				v-if="successMessage"
-				class="
-					text-sm
-					px-2
-					py-1
-					font-semibold
-					leading-tight
-					text-green-700
-					bg-green-100
-					rounded-full
-					dark:bg-green-700
-					dark:text-green-100
-				"
-			>
-				Save Successfull
-			</span>
+<div>
+    <div class="mb-2">
+        <span v-if="successMessage" class=" text-sm px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+            Save Successfull
+        </span>
+    </div>
+    <div class="w-full overflow-hidden rounded-lg shadow-sm border">
+        <div class="w-full overflow-x-auto">
 			<table class="w-full whitespace-no-wrap">
 				<thead>
 					<tr
@@ -60,21 +49,12 @@
 							<div class="flex items-center text-sm">
 								<div>
 									<p class="font-semibold">
-										{{
-											speciality.name
-												? speciality.name
-												: "N/A"
-										}}
+										{{ speciality.name ? speciality.name : "N/A" }}
 									</p>
 								</div>
 							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
-							<!-- {{
-								speciality.created_at
-									? speciality.created_at
-									: "N/A"
-							}} -->
                             {{ moment(speciality.created_at).fromNow() }}
 						</td>
 						<td class="px-4 py-3 text-xs">
@@ -267,6 +247,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </template>
 <script>
 import SpecialityService from "../../../services/SpecialityService";

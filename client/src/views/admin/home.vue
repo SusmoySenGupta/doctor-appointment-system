@@ -12,29 +12,31 @@
 			</template>
 		</suspense>
 
-		<router-link :to="{ name: 'admin.doctor.create' }" class="mb-4">
-			<a class=" px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purpl ">
-				Add Doctor
-			</a>
-		</router-link>
+        <div class="mb-4">
+            <router-link :to="{ name: 'admin.doctor.create' }">
+                <a class=" px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purpl ">
+                    Add Doctor
+                </a>
+		    </router-link>
+        </div>
+		
+		<suspense>
+			<template #default>
+				<admin-doctor-table></admin-doctor-table>
+			</template>
+			<template #fallback>
+				<admin-doctor-tableSkeleton />
+			</template>
+		</suspense>
+		
+        <br /> <hr /> <br />
 
 		<suspense>
 			<template #default>
-				<AdminTable></AdminTable>
+				<admin-patient-table></admin-patient-table>
 			</template>
 			<template #fallback>
-				<AdminTableSkeleton />
-			</template>
-		</suspense>
-		<br />
-		<hr />
-		<br />
-		<suspense>
-			<template #default>
-				<AdminPatientTable></AdminPatientTable>
-			</template>
-			<template #fallback>
-				<AdminPatientTableSkeleton />
+				<admin-patient-tableSkeleton />
 			</template>
 		</suspense>
 	</div>
@@ -43,8 +45,8 @@
 <script setup>
 import AdminCard from "../../components/admin/card/AdminCard.vue";
 import AdminCardSkeleton from "../../components/admin/card/AdminCardSkeleton.vue";
-import AdminTable from "../../components/admin/table/AdminDoctorTable.vue";
-import AdminTableSkeleton from "../../components/admin/table/AdminDoctorTableSkeleton.vue";
+import AdminDoctorTable from "../../components/admin/table/AdminDoctorTable.vue";
+import AdminDoctorTableSkeleton from "../../components/admin/table/AdminDoctorTableSkeleton.vue";
 import AdminPatientTable from "../../components/admin/table/AdminPatientTable.vue";
 import AdminPatientTableSkeleton from "../../components/admin/table/AdminPatientTableSkeleton.vue";
 </script>
