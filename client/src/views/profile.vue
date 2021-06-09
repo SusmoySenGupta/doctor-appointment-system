@@ -7,5 +7,5 @@
 	</div>
 </template>
 <script setup>
-import PatientProfile from "../../components/patient/PatientProfile.vue";
+import PatientProfile from "../components/TheProfile.vue";
 </script>

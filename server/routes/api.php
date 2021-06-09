@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SpecialityController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Registration for patients
@@ -20,6 +21,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('/get-appointments', [AppointmentController::class, 'index']);
     Route::get('/get-doctors', [DoctorController::class, 'index']);
     Route::get('/get-blood-groups', [BloodGroupController::class, 'index']);
+    Route::put('/user/update/{user}', [UserController::class, 'update']);
 
     //admin routes
     Route::group(['prefix' => 'admin'], function ()
@@ -45,7 +47,5 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
         Route::post('/appointments/store', [AppointmentController::class, 'store']);
         Route::get('/get-doctor-schedule/{doctor_id}/{date}', [ScheduleController::class, 'getDoctorSchedule']);
-        Route::put('/update/{user}', [PatientController::class, 'update']);
-
     });
 });

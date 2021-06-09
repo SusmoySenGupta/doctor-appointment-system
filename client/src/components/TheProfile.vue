@@ -2,8 +2,8 @@
 	<div class="w-full overflow-hidden rounded-lg shadow-xs">
 		<div class="w-full overflow-x-auto">
 			<div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <form @submit.prevent="updatePatient()">
-                    <div class="grid grid-cols-3 gap-2 md:grid-cols-1">
+                <form @submit.prevent="updateUser()">
+                    <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Name</span>
                             <input v-model="user.name" type="text" required class="block w-full mt-1 text-sm rounded dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-purple-500 dark:text-gray-300 dark:focus:shadow-gray-500 form-input" placeholder="name">
@@ -20,7 +20,7 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-2 mt-4 md:grid-cols-1">
+                    <div class="grid grid-cols-1 gap-2 mt-4 md:grid-cols-3">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
                             Gender
@@ -78,9 +78,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import UserService from '../../services/UserService';
-import BloodGroupService from '../../services/BloodGroupService';
-import PatientService from '../../services/PatientService';
+import UserService from '../services/UserService';
+import BloodGroupService from '../services/BloodGroupService';
 
 
 //get user
@@ -108,9 +107,9 @@ const store = useStore();
 const isLoading = ref(false);
 const isSaved = ref(false);
 
-function updatePatient(){
+function updateUser(){
     isLoading.value = true;
-    PatientService.updatePatient(user.value.id, user.value)
+    UserService.updateUser(user.value.id, user.value)
     .then(() => {
         store.dispatch("getCurrentUser").then(() => {
             isLoading.value = false;

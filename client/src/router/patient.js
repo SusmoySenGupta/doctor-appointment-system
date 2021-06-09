@@ -57,7 +57,7 @@ export default [{
             path: "profile",
             name: "patient.profile",
             component: () =>
-                import ("../views/patient/profile.vue"),
+                import ("../views/profile.vue"),
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
     ],

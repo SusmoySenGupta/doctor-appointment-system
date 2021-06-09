@@ -18,5 +18,12 @@ export default [{
                 import ("../views/doctor/schedule.vue"),
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
+        {
+            path: "profile",
+            name: "doctor.profile",
+            component: () =>
+                import ("../views/profile.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
     ],
 }, ];
