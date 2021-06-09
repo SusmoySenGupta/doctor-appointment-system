@@ -18,5 +18,41 @@ export default [{
                 import ("../views/patient/appointment.vue"),
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
+        {
+            path: "ambulance",
+            name: "patient.ambulance",
+            component: () =>
+                import ("../views/patient/ambulance.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+        {
+            path: "hospital",
+            name: "patient.hospital",
+            component: () =>
+                import ("../views/patient/hospital.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+        {
+            path: "blood-donation",
+            name: "patient.blood",
+            component: () =>
+                import ("../views/patient/blood.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+        {
+            path: "medicine",
+            name: "patient.medicine",
+            component: () =>
+                import ("../views/patient/medicine.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+        {
+            path: "covid-note",
+            name: "patient.covid",
+            component: () =>
+                import ("../views/patient/covid.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+
     ],
 }, ];

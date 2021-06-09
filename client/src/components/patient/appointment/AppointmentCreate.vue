@@ -10,7 +10,12 @@
 						<select v-model="formData.doctor_id" @change="getTimingSchedules()" required class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
                             <option value="null">--Select Doctor--</option>
                             <option v-for="doctor in doctors" :key="doctor.id" :value="doctor.id">
-                                {{ doctor.name }}
+                                {{ doctor.name }} - Specialist in (
+                                <div v-for="(speciality, index) in doctor.specialities" :key="speciality">
+									<span>{{ speciality.name }}</span>
+                                    <span v-if="index < doctor.specialities.length - 1">{{ ", " }}</span>
+								</div>
+                                )
                             </option>
                         </select>
 					</label>
