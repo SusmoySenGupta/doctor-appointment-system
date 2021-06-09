@@ -25,5 +25,12 @@ export default [{
                 import ("../views/profile.vue"),
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
+        {
+            path: "settings",
+            name: "doctor.settings",
+            component: () =>
+                import ("../views/change-password.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
     ],
 }, ];

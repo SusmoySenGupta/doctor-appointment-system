@@ -7,5 +7,9 @@ export default {
 
     updateUser(id, data) {
         return Api().put("user/update/" + id, data);
+    },
+
+    changePassword(data) {
+        return Api().post("user/change-password", data);
     }
 };

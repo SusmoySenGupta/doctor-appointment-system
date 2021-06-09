@@ -21,7 +21,9 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('/get-appointments', [AppointmentController::class, 'index']);
     Route::get('/get-doctors', [DoctorController::class, 'index']);
     Route::get('/get-blood-groups', [BloodGroupController::class, 'index']);
-    Route::put('/user/update/{user}', [UserController::class, 'update']);
+    Route::put('/user/update/{user}', [UserController::class, 'updateUserProfile']);
+    Route::post('/user/change-password', [UserController::class, 'changePassword']);
+    
 
     //admin routes
     Route::group(['prefix' => 'admin'], function ()

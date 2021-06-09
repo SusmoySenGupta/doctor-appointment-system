@@ -32,5 +32,12 @@ export default [{
                 import ("../views/admin/speciality/create.vue"),
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
+        {
+            path: "settings",
+            name: "admin.settings",
+            component: () =>
+                import ("../views/change-password.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
     ],
 }, ];
