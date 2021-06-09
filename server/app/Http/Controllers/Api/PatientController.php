@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Patient\UpdatePatientRequest;
 
 class PatientController extends Controller
 {
@@ -14,6 +15,15 @@ class PatientController extends Controller
         return response()->json([
             'data'   => $patients,
             'status' => sizeof($patients) ? true : false,
+        ]);
+    }
+
+    public function update(UpdatePatientRequest $request, User $user)
+    {
+        $status = $user->update($request->validated()) ? true : false;
+
+        return response()->json([
+            'status' => $status,
         ]);
     }
 }

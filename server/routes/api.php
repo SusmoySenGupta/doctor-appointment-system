@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\BloodGroupController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\ScheduleController;
@@ -18,6 +19,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('/user', [AuthenticationController::class, 'getUser']);
     Route::get('/get-appointments', [AppointmentController::class, 'index']);
     Route::get('/get-doctors', [DoctorController::class, 'index']);
+    Route::get('/get-blood-groups', [BloodGroupController::class, 'index']);
 
     //admin routes
     Route::group(['prefix' => 'admin'], function ()
@@ -43,5 +45,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
         Route::post('/appointments/store', [AppointmentController::class, 'store']);
         Route::get('/get-doctor-schedule/{doctor_id}/{date}', [ScheduleController::class, 'getDoctorSchedule']);
+        Route::put('/update/{user}', [PatientController::class, 'update']);
+
     });
 });

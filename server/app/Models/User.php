@@ -25,7 +25,8 @@ class User extends Authenticatable
         'birth_date',
         'phone_no',
         'blood_group_id',
-        'gap'
+        'gap',
+        'address'
     ];
 
     /**
