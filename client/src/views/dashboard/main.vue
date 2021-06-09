@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ dark: dark }"></div>
+	<div :class="{ dark: dark }">
 		<div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': true }">
 			<thesidebar></thesidebar>
 			<div class="flex flex-col flex-1 w-full">
