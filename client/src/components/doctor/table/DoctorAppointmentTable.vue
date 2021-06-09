@@ -1,13 +1,11 @@
 <template>
-	<!-- New Table -->
 	<div class="w-full overflow-hidden rounded-lg shadow-xs">
 		<div class="w-full overflow-x-auto">
 			<table class="w-full whitespace-no-wrap">
 				<thead>
 					<tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
 						<th class="px-4 py-3">Patient</th>
-						<th class="px-4 py-3">Email</th>
-						<th class="px-4 py-3">Phone no</th>
+						<th class="px-4 py-3">Email / Phone</th>
 						<th class="px-4 py-3">Date & Time</th>
 						<th class="px-4 py-3">Status</th>
 						<th class="px-4 py-3">Completed at</th>
@@ -22,11 +20,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    <tr
-						class="text-gray-700 dark:text-gray-400"
-						v-for="appointment in appointments"
-						:key="appointment.id"
-					>
+                    <tr v-for="appointment in appointments" :key="appointment.id" class="text-gray-700 dark:text-gray-400">
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
 								<div>
@@ -39,18 +33,24 @@
 								</div>
 							</div>
 						</td>
-						<td class="px-4 py-3 text-sm">
-							{{ appointment.patient_email }}
-						</td>
-						<td class="px-4 py-3 text-xs">
-							{{ appointment.patient_phone_no ? appointment.patient_phone_no : "N/A" }}
+                        <td class="px-4 py-3">
+							<div class="flex items-center text-xs">
+								<div>
+									<p class="font-semibold">
+										{{ appointment.patient_email }}
+									</p>
+									<p class="text-xs text-gray-600 dark:text-gray-400">
+										{{ appointment.patient_phone_no ? appointment.patient_phone_no : "N/A" }}
+									</p>
+								</div>
+							</div>
 						</td>
                         <td class="px-4 py-3 text-xs">
                             {{ moment(appointment.appointment_date).format('DD-MMM-YYYY')  }}
                             ,
-							{{ moment(appointment.start_at, "hh:mm:ss").format('H:mm') }} 
+							{{ moment(appointment.start_at, "hh:mm:ss").format('hh:mm A') }} 
                             -
-                            {{ moment(appointment.end_at, "hh:mm:ss").format('H:mm') }}
+                            {{ moment(appointment.end_at, "hh:mm:ss").format('hh:mm A') }}
 						</td>
                         <td class="px-4 py-3 text-xs">
                             <span v-if="appointment.is_pending" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:text-white dark:bg-yellow-600">
@@ -60,36 +60,18 @@
                                 Completed
                             </span>
 						</td>
-                        <td class="px-4 py-3 text-xs text-center">
-							{{appointment.checked_at ? moment(appointment.checked_at).format('DD-MMM-YYYY, H:mm') : 'N/A' }}
+                        <td class="px-4 py-3 text-xs">
+							{{appointment.checked_at ? moment(appointment.checked_at).format('DD-MMM-YYYY, hh:mm A') : 'N/A' }}
 						</td>
 						<td class="px-4 py-3 text-xs">
-							<button
-								type="button"
-                                @click="markAsChecked(appointment.id)"
-                                v-if="appointment.is_pending == 1 && moment(new Date()).diff(moment(appointment.appointment_date), 'days') == 0"
-								class="
-									px-3
-									py-1
-									text-xs
-									font-medium
-									leading-5
-									text-white
-									transition-colors
-									duration-150
-									bg-green-600
-									border border-transparent
-									rounded-md
-									active:bg-green-600
-									hover:bg-green-700
-									focus:outline-none
-									focus:shadow-outline-green
-								"
-							>
+							<button type="button" @click="markAsChecked(appointment.id)" v-if="appointment.is_pending == 1 && moment(new Date()).isSame(moment(appointment.appointment_date), 'day')" lass="px-3 py-1 text-xs font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
 								Mark as completed
 							</button>
                             <span v-else-if="appointment.is_pending != 1 && appointment.checked_at != NULL" class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
                                 Marked as completed
+                            </span>
+                            <span v-else class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                N/A
                             </span>
 						</td>
 					</tr>
