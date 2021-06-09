@@ -18,6 +18,7 @@
 							Speciality name
 						</span>
 						<input
+                            type="text"
 							class="
 								block
 								w-full
@@ -31,6 +32,7 @@
 								form-input
 								rounded
 							"
+                            required
 							placeholder="Ex: Heart"
 							v-model="formData.name"
 						/>
