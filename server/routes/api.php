@@ -1,15 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AdminController;
-use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\Api\AuthenticationController;
-use App\Http\Controllers\Api\BloodGroupController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\BloodGroupController;
 use App\Http\Controllers\Api\SpecialityController;
-use App\Http\Controllers\Api\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AuthenticationController;
 
 //Registration for patients
 Route::post('register', [AuthenticationController::class, 'register']);
@@ -23,7 +24,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('/get-blood-groups', [BloodGroupController::class, 'index']);
     Route::put('/user/update/{user}', [UserController::class, 'updateUserProfile']);
     Route::post('/user/change-password', [UserController::class, 'changePassword']);
-    
+    Route::get('get-user-card-details', [CardController::class, 'getUserCardDetails']);
 
     //admin routes
     Route::group(['prefix' => 'admin'], function ()
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::post('/doctor/store', [DoctorController::class, 'store']);
         Route::get('/get-patients', [PatientController::class, 'index']);
         Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
+        Route::get('get-admin-card-details', [CardController::class, 'getAdminCardDetails']);
     });
 
     //doctor routes

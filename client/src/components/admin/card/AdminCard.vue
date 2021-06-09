@@ -7,11 +7,11 @@
 				</svg>
 			</div>
 			<div>
-				<p class=" mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
 					Users
 				</p>
 				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-					503
+					{{ data.users }}
 				</p>
 			</div>
 		</div>
@@ -23,11 +23,11 @@
 				</svg>
 			</div>
 			<div>
-				<p class="mb-2 text-smfont-mediumtext-gray-600dark:text-gray-400">
+				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
 					Doctors
 				</p>
-				<p class="text-lgfont-semiboldtext-gray-700 dark:text-gray-200">
-					127
+				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+					{{ data.doctors }}
 				</p>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 					Patients
 				</p>
 				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-					376
+					{{ data.patients }}
 				</p>
 			</div>
 		</div>
@@ -58,10 +58,23 @@
 				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
 					Appointments
 				</p>
-				<p class="text-lgfont-semiboldtext-gray-700dark:text-gray-200">
-					35
+				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+					{{ data.appointments }}
 				</p>
 			</div>
 		</div>
 	</div>
 </template>
+<script>
+import {ref, computed} from "vue";
+import CardService from "../../../services/CardService";
+
+export default {
+	async setup() {
+        const response = ref(await CardService.getAdminCardDetails());
+        const data = computed(() => response.value.data);
+
+        return {data};
+    }
+}
+</script>

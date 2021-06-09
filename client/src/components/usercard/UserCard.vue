@@ -7,11 +7,11 @@
 				</svg>
 			</div>
 			<div>
-				<p class=" mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-					Users
+				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+					Appointments
 				</p>
 				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-					503
+					{{ data.total }}
 				</p>
 			</div>
 		</div>
@@ -23,11 +23,11 @@
 				</svg>
 			</div>
 			<div>
-				<p class="mb-2 text-smfont-mediumtext-gray-600dark:text-gray-400">
-					Doctors
+				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+					Pending
 				</p>
-				<p class="text-lgfont-semiboldtext-gray-700 dark:text-gray-200">
-					127
+				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+					{{ data.pending }}
 				</p>
 			</div>
 		</div>
@@ -40,10 +40,10 @@
 			</div>
 			<div>
 				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-					Patients
+					Completed
 				</p>
 				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-					376
+					{{ data.completed }}
 				</p>
 			</div>
 		</div>
@@ -56,12 +56,25 @@
 			</div>
 			<div>
 				<p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-					Appointments
+					Cancelled / Missed
 				</p>
-				<p class="text-lgfont-semiboldtext-gray-700dark:text-gray-200">
-					35
+				<p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+					{{ data.cancelled }}
 				</p>
 			</div>
 		</div>
 	</div>
 </template>
+<script>
+import {ref, computed} from "vue";
+import CardService from "../../services/CardService";
+
+export default {
+	async setup() {
+        const response = ref(await CardService.getUserCardDetails());
+        const data = computed(() => response.value.data);
+
+        return {data};
+    }
+}
+</script>

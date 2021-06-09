@@ -64,7 +64,7 @@
 							{{appointment.checked_at ? moment(appointment.checked_at).format('DD-MMM-YYYY, hh:mm A') : 'N/A' }}
 						</td>
 						<td class="px-4 py-3 text-xs">
-							<button type="button" @click="markAsChecked(appointment.id)" v-if="appointment.is_pending == 1 && moment(new Date()).isSame(moment(appointment.appointment_date), 'day')" lass="px-3 py-1 text-xs font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+							<button type="button" @click="markAsChecked(appointment.id)" v-if="appointment.is_pending == 1 && moment(new Date()).isSame(moment(appointment.appointment_date), 'day')" class="px-3 py-1 text-xs font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
 								Mark as completed
 							</button>
                             <span v-else-if="appointment.is_pending != 1 && appointment.checked_at != NULL" class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">

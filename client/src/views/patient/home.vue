@@ -3,7 +3,14 @@
 		<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
 			Dashboard
 		</h2>
-		<DoctorCard></DoctorCard>
+        <suspense>
+			<template #default>
+				<user-card></user-card>
+			</template>
+			<template #fallback>
+				<user-card-skeleton />
+			</template>
+		</suspense>
         <h2 class="my-6 text-lg font-semibold text-gray-700 dark:text-gray-200">
 			Appointments
 		</h2>
@@ -19,7 +26,8 @@
 </template>
 
 <script setup>
-import DoctorCard from "../../components/doctor/DoctorCard.vue";
+import UserCard from "../../components/usercard/UserCard.vue";
+import UserCardSkeleton from "../../components/usercard/UserCardSkeleton.vue";
 import PatientAppointmentTable from "../../components/patient/table/PatientAppointmentTable.vue";
 import PatientAppointmentTableSkeleton from "../../components/patient/table/PatientAppointmentTableSkeleton.vue";
 
