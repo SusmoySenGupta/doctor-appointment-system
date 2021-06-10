@@ -15,6 +15,7 @@ const Store = createStore({
                 token_type: "",
             },
             currentUser: null,
+            isSidebarOpen: false
         };
     },
     actions: {
@@ -43,6 +44,7 @@ const Store = createStore({
                     });
             });
         },
+
         getCurrentUser(context) {
             return new Promise((resolve, reject) => {
                 axios
@@ -67,6 +69,14 @@ const Store = createStore({
                 reject(response);
             });
         },
+
+        toggleSidebar(context) {
+            context.commit('updateSidebarState');
+        },
+
+        closeSidebar(context) {
+            context.commit('closeSidebar');
+        }
     },
     mutations: {
         updateTokens(state, tokens) {
@@ -79,6 +89,12 @@ const Store = createStore({
             state.currentUser = null;
             state.tokens = "";
         },
+        updateSidebarState(state) {
+            state.isSidebarOpen = !state.isSidebarOpen;
+        },
+        closeSidebar(state) {
+            state.isSidebarOpen = false;
+        }
     },
     getters: {
         getAccessToken(state) {
@@ -87,6 +103,9 @@ const Store = createStore({
         getCurrentUser(state) {
             return state.currentUser;
         },
+        getSidebarState(state) {
+            return state.isSidebarOpen;
+        }
     },
 });
 
