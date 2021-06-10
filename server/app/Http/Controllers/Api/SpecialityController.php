@@ -25,18 +25,16 @@ class SpecialityController extends Controller
         $speciality = Speciality::create($request->validated());
 
         return response()->json([
-            'data'   => $speciality,
             'status' => $speciality ? true : false,
         ]);
     }
 
     public function update(UpdateSpecialityRequest $request, Speciality $speciality)
     {
-        $speciality = $speciality->update($request->validated());
+        $status = $speciality->update($request->validated());
 
         return response()->json([
-            'data'   => $speciality,
-            'status' => $speciality ? true : false,
+            'status' => $status,
         ]);
     }
 }
