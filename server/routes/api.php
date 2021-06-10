@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     Route::get('get-user-card-details', [CardController::class, 'getUserCardDetails']);
 
     //admin routes
-    Route::group(['prefix' => 'admin'], function ()
+    Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function ()
     {
         Route::put('/make-admin/{id}', [AdminController::class, 'makeAdmin']);
         Route::post('/doctor/store', [DoctorController::class, 'store']);
@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     });
 
     //doctor routes
-    Route::group(['prefix' => 'doctor'], function ()
+    Route::group(['prefix' => 'doctor', 'middleware' => 'is_doctor'], function ()
     {
         Route::put('/appointments/mark-as-checked/{id}', [AppointmentController::class, 'markAsChecked']);
         Route::put('/gap/update', [DoctorController::class, 'updateGap']);
@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth:api'], function ()
     });
 
     //patient routes
-    Route::group(['prefix' => 'patient', 'as' => 'patient.'], function ()
+    Route::group(['prefix' => 'patient', 'middleware' => 'is_patient'], function ()
     {
         Route::put('/appointments/feedback/{id}', [AppointmentController::class, 'saveFeedback']);
         Route::post('/appointments/store', [AppointmentController::class, 'store']);
