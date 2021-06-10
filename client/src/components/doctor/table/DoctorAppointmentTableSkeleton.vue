@@ -1,5 +1,5 @@
 <template>
-	<div class="w-full overflow-hidden rounded-lg shadow-xs">
+	<div class="mb-4 w-full overflow-hidden rounded-lg shadow-sm border">
 		<div class="w-full overflow-x-auto">
 			<table class="w-full whitespace-no-wrap">
 				<thead>
@@ -9,7 +9,7 @@
 						<th class="px-4 py-3">Date & Time</th>
 						<th class="px-4 py-3">Status</th>
 						<th class="px-4 py-3">Completed at</th>
-						<th class="px-4 py-3">Action</th>
+						<th class="px-4 py-3"> Action </th>
 					</tr>
 				</thead>
 				<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -45,11 +45,6 @@
                         <td class="px-4 py-3 text-xs">
 							<div class="flex flex-col gap-1">
 								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
-							</div>
-						</td>
-                        <td class="px-4 py-3 text-xs">
-							<div class="flex flex-col gap-1">
-								<div class="w-24 h-7 rounded bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>
 						</td>
 					</tr>

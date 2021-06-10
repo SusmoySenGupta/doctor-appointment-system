@@ -1,5 +1,4 @@
 <template>
-	<!-- New Table -->
 	<div class="w-full overflow-hidden rounded-lg shadow-xs">
 		<div class="w-full overflow-x-auto">
             <label class="md:w-1/5 mb-4 ml-1 block mt-4 text-sm">

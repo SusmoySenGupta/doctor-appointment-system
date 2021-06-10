@@ -1,5 +1,5 @@
 <template>
-	<div class="w-full overflow-hidden rounded-lg shadow-xs">
+	<div class="mb-4  w-full overflow-hidden rounded-lg shadow-sm border">
 		<div class="w-full overflow-x-auto">
 			<table class="w-full whitespace-no-wrap">
 				<thead>
@@ -33,6 +33,7 @@
 								</div>
 							</div>
 						</td>
+
                         <td class="px-4 py-3">
 							<div class="flex items-center text-xs">
 								<div>
@@ -45,6 +46,7 @@
 								</div>
 							</div>
 						</td>
+
                         <td class="px-4 py-3 text-xs">
                             {{ moment(appointment.appointment_date).format('DD-MMM-YYYY')  }}
                             ,
@@ -52,6 +54,7 @@
                             -
                             {{ moment(appointment.end_at, "hh:mm:ss").format('hh:mm A') }}
 						</td>
+
                         <td class="px-4 py-3 text-xs">
                             <span v-if="appointment.is_pending" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:text-white dark:bg-yellow-600">
                                 Pending
@@ -60,11 +63,13 @@
                                 Completed
                             </span>
 						</td>
+
                         <td class="px-4 py-3 text-xs">
 							{{appointment.checked_at ? moment(appointment.checked_at).format('DD-MMM-YYYY, hh:mm A') : 'N/A' }}
 						</td>
+
 						<td class="px-4 py-3 text-xs">
-							<button type="button" @click="markAsChecked(appointment.id)" v-if="appointment.is_pending == 1 && moment(new Date()).isSame(moment(appointment.appointment_date), 'day')" class="px-3 py-1 text-xs font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+							<button type="button" @click="markAsChecked(appointment.id)" v-if="appointment.is_pending == 1 && moment(new Date()).isSame(moment(appointment.appointment_date), 'day')" class="px-3 py-1 text-xs font-medium leading-5 text-purple-800 dark:text-purple-100 transition-colors duration-150 bg-transparent ring-2 ring-offset-1 dark:ring-offset-0 ring-purple-500 rounded-md active:bg-purple-500 hover:bg-purple-700 hover:text-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-400">
 								Mark as completed
 							</button>
                             <span v-else-if="appointment.is_pending != 1 && appointment.checked_at != NULL" class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
@@ -82,36 +87,44 @@
 	</div>
 </template>
 <script> 
-import AppointmentService from "../../../services/AppointmentService";
 import { ref, computed } from "vue";
 import moment from 'moment';
+import AppointmentService from "../../../services/AppointmentService";
 
 export default {
 	async setup() {
 		const response = ref(await AppointmentService.getAppointments());
 		const appointments = computed(() => response.value.data.data);
-		const isLoading = ref(false);
         const genders = ['Male', 'Female', 'Other'];
+
+        //marked as checked function
+        const isLoading = ref(false);
 
         function markAsChecked(id) {
 			if (confirm("Are you sure?")) {
 				isLoading.value = true;
 				AppointmentService.markAsChecked(id)
-					.then(() => {
-						AppointmentService.getAppointments().then((markAsCheckedResponse) => {
-							response.value = markAsCheckedResponse;
-							isLoading.value = false;
-						});
-					})
-					.catch(() => alert("Something went wrong!!!"));
+                .then(() => {
+                    AppointmentService.getAppointments().then((markAsCheckedResponse) => {
+                        response.value = markAsCheckedResponse;
+                        isLoading.value = false;
+                    });
+                })
+                .catch(() => {
+                    isLoading.value = false
+                    alert("Something went wrong!!!");
+                });
 			}
 		}
 
+
 		return {
 			appointments,
-			isLoading,
             genders,
+
+			isLoading,
             markAsChecked,
+
             moment
 		};
 	},

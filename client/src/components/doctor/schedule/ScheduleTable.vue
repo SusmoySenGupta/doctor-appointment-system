@@ -1,33 +1,23 @@
 <template>
-	<!-- New Table -->
-	<div class="w-full overflow-hidden rounded-lg shadow-xs">
-		<div class="w-full overflow-x-auto">
-            <label class="md:w-1/5 mb-4 ml-1 block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Timing Slot Duration
-                </span>
-                <div class="flex justify-center items-center gap-2">
-                    <select v-model="timeGap" @change="updateGap(timeGap)" :disabled="has_appointment" class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
-                        <option value="">--Select duration--</option>
+    <div>
+        <div class="w-1/5 mb-4">
+            <span class="text-gray-700 dark:text-gray-400">
+                Timing Slot Duration
+            </span>
+            <div class="flex justify-center items-center gap-2">
+                <select v-model="timeGap" @change="updateGap(timeGap)" :disabled="has_appointment" class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
+                    <option value="">--Select duration--</option>
                     <option v-for="gap in gaps" :key="gap" :value="gap">{{ gap }}</option>
                 </select>
-                    <span v-if="isTimeGapLoading">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 my-2 text-purple-500 animate-spin"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </span>
-                </div>
-            </label>
-
+                <span v-if="isTimeGapLoading">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 my-2 text-purple-500 animate-spin" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+            </div>
+        </div>
+	    <div class="mb-4 w-full overflow-hidden rounded-lg shadow-sm border">
+		<div class="w-full overflow-x-auto">
 			<table class="w-full whitespace-no-wrap">
 				<thead>
 					<tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -39,11 +29,7 @@
 					</tr>
 				</thead>
 				<tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    <tr
-						class="text-gray-700 dark:text-gray-400"
-						v-for="(schedule, index) in schedules"
-						:key="schedule.id"
-					>
+                    <tr v-for="(schedule, index) in schedules" :key="schedule.id" class="text-gray-700 dark:text-gray-400">
 						<td class="px-4 py-3">
 							<div class="flex items-center text-sm">
 								<div v-for="day in days" :key="day.id">
@@ -71,7 +57,7 @@
                                 Active
                             </span>
 						</td>
-						<td class="px-4 py-3 text-xs text-center">
+						<td class="px-4 py-3 text-xs">
 							<button v-if="has_appointment == false" @click="openModel(index)" class="px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 active:bg-purple-500 active:text-white" aria-label="Edit">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -146,7 +132,7 @@
 
                             <div class="mt-4">
                                 <button class="flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" :disabled="isLoading" type="submit">
-                                    <span>Update Speciality</span>
+                                    <span>Update Schedule</span>
                                     <span v-if="isLoading">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -163,19 +149,19 @@
                                     </span>
                                 </button>
                             </div>
-                           
                         </form>
                     </div>
 			    </div>
 		    </div>
 		</div>
-	</div>
+	    </div>
+    </div>
 </template>
 <script> 
-import ScheduleService from "../../../services/ScheduleService";
-import DoctorService from "../../../services/DoctorService";
 import { ref, computed } from "vue";
 import moment from 'moment';
+import ScheduleService from "../../../services/ScheduleService";
+import DoctorService from "../../../services/DoctorService";
 
 export default {
 	async setup() {
@@ -196,7 +182,7 @@ export default {
             break_end_at: null,
             is_offday: false,
         });
-        const isModalOpen = ref(false);
+        
 
         function getDay(id){
             days.value.forEach((day) => {
@@ -207,17 +193,18 @@ export default {
         }
 
 
+        const isModalOpen = ref(false);
+        
+        function openModel(index) {
+            formData.value.id = schedules.value[index].id;
+            formData.value.start_at = schedules.value[index].start_at;
+            formData.value.end_at = schedules.value[index].end_at;
+            formData.value.break_start_at = schedules.value[index].break_start_at;
+            formData.value.break_end_at = schedules.value[index].break_end_at;
+            formData.value.is_offday = schedules.value[index].is_offday ? true : false;
 
-       function openModel(index) {
-			formData.value.id = schedules.value[index].id;
-			formData.value.start_at = schedules.value[index].start_at;
-			formData.value.end_at = schedules.value[index].end_at;
-			formData.value.break_start_at = schedules.value[index].break_start_at;
-			formData.value.break_end_at = schedules.value[index].break_end_at;
-			formData.value.is_offday = schedules.value[index].is_offday ? true : false;
-
-			isModalOpen.value = true;
-		}
+            isModalOpen.value = true;
+        }
 
         function closeModal() {
             formData.value = {};
