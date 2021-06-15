@@ -50,9 +50,9 @@ class ScheduleController extends Controller
             ->where('appointment_date', $date)
             ->get();
 
-        $times = collect([]);
+        $status = false;
 
-        if ($patient_appointments->count() < 2 && $patient_appointments->where('doctor_id', $doctor_id)->count() == 0)
+        if ($patient_appointments->count() <= 2 && $patient_appointments->where('doctor_id', $doctor_id)->count() == 0)
         {
             $appointments = Appointment::where('doctor_id', $doctor_id)->where('appointment_date', $date)
                 ->select('start_at', 'end_at')
@@ -74,13 +74,11 @@ class ScheduleController extends Controller
 
                 for ($i = 0; $start_at < $end_at; $i++)
                 {
-                    $shift_start = $start_at;
-                    $shift_end   = date('H:i', strtotime($start_at) + 60 * $gap);
-
                     if (($start_at < $break_start_at || $start_at >= $break_end_at)
                         && (!$appointments->contains('start_at', date('H:i:s', strtotime($start_at)))))
                     {
-                        $times->push($shift_start . '-' . $shift_end);
+                        $status = true;
+                        break;
                     }
 
                     $start_at = date('H:i', strtotime($start_at) + 60 * $gap);
@@ -89,7 +87,7 @@ class ScheduleController extends Controller
         }
 
         return response()->json([
-            'times' => $times,
+            'status' => $status,
         ]);
     }
 

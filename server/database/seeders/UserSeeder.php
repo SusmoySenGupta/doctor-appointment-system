@@ -103,7 +103,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name'           => 'Arfan',
-                'email'          => 'Patient3@patient.com',
+                'email'          => 'arfan@gmail.com',
                 'password'       => bcrypt('secret'),
                 'role_id'        => 3,
                 'created_at'     => now(),
