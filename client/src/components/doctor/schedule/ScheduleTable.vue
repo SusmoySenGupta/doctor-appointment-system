@@ -45,9 +45,14 @@
                             {{ moment(schedule.end_at, "hh:mm:ss").format('hh:mm A') }}
 						</td>
                         <td class="px-4 py-3 text-sm">
-							{{ moment(schedule.break_start_at, "hh:mm:ss").format('hh:mm A') }}
-                            -
-                            {{ moment(schedule.break_end_at, "hh:mm:ss").format('hh:mm A') }}
+                            <span v-if="schedule.break_start_at && schedule.break_end_at">
+                                {{ moment(schedule.break_start_at, "hh:mm:ss").format('hh:mm A') }}
+                                -
+                                {{ moment(schedule.break_end_at, "hh:mm:ss").format('hh:mm A') }}
+                            </span>
+                            <span v-else class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                No-Break
+                            </span>
 						</td>
                         <td class="px-4 py-3 text-xs">
                             <span v-if="schedule.is_offday" class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-white dark:bg-red-600">
@@ -122,13 +127,22 @@
                                     <input type="time" v-model="formData.break_end_at" :min="formData.break_start_at" :max="formData.end_at" class="block w-full mt-1 text-sm dark:text-gray-300 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-red form-input rounded" />
                                 </label>
                             </div>
-                            
-                            <label class="flex items-center dark:text-gray-400">
-                                <input type="checkbox" v-model="formData.is_offday" class="text-purple-600 form-checkbox rounded focus:border-purple-400 focus:outline-none focus:ring-purple-500 dark:focus:shadow-outline-gray">
-                                <span class="ml-2">
-                                    Off Day
-                                </span>
-                            </label>
+
+                            <div class="flex flex-col md:flex-row md:justify-start gap-2">
+                                <label class="flex items-center dark:text-gray-400">
+                                    <input type="checkbox" v-model="formData.noBreak" @change="makeNoBreak()" class="text-purple-600 form-checkbox rounded focus:border-purple-400 focus:outline-none focus:ring-purple-500 dark:focus:shadow-outline-gray">
+                                    <span class="ml-2">
+                                        No Break
+                                    </span>
+                                </label>
+                                
+                                <label class="flex items-center dark:text-gray-400">
+                                    <input type="checkbox" v-model="formData.is_offday" class="text-purple-600 form-checkbox rounded focus:border-purple-400 focus:outline-none focus:ring-purple-500 dark:focus:shadow-outline-gray">
+                                    <span class="ml-2">
+                                        Off Day
+                                    </span>
+                                </label>
+                            </div>
 
                             <div class="mt-4">
                                 <button class="flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" :disabled="isLoading" type="submit">
@@ -150,6 +164,21 @@
                                 </button>
                             </div>
                         </form>
+
+                        <div v-if="errors" class="mt-4 px-3 py-2 w-full rounded text-sm text-red-500 bg-red-100 animate-pulse">
+                            <p class="font-semibold tracking-wide">
+                                <strong>Error:</strong> {{ errors.message }}
+                            </p>
+                            <ul class="mt-1 ml-2 list-disc list-inside">
+                                <li v-for="allErrors in errors.errors" :key="allErrors">
+                                    <span v-for="errorKeys in allErrors" :key="errorKeys">
+                                        <span v-for="errorMessage in errorKeys" :key="errorMessage">
+                                            {{ errorMessage }}
+                                        </span> 
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 			    </div>
 		    </div>
@@ -174,6 +203,7 @@ export default {
 		const isLoading = ref(false);
 		const isTimeGapLoading = ref(false);
         const successMessage = ref(false);
+        const errors = ref(null);
         const formData = ref({
             id: null,
             start_at: null,
@@ -181,8 +211,10 @@ export default {
             break_start_at: null,
             break_end_at: null,
             is_offday: false,
+            noBreak: false
         });
         
+
 
         function getDay(id){
             days.value.forEach((day) => {
@@ -211,23 +243,43 @@ export default {
             isModalOpen.value = false;
         }
 
+
+        function makeNoBreak()
+        {
+            if(formData.value.noBreak) {
+                formData.value.break_start_at = "";
+                formData.value.break_end_at = "";
+            }
+            else {
+                formData.value.break_start_at = "14:00";
+                formData.value.break_end_at = "15:00";
+            }
+
+        }
+
         async function updateSchedule() {
 			isLoading.value = true;
 			await ScheduleService.updateSchedule( formData.value.id, formData.value )
-				.then((updateResponse) => {
-                    console.log(updateResponse);
+				.then(() => {
                     ScheduleService.getSchedules()
                     .then((getScheduleResponse) => {
                         response.value = getScheduleResponse;
                         isLoading.value = false;
                         closeModal();
                         successMessage.value = true;
+                        errors.value = null;
                     })
-                    .catch((getScheduleError) => alert(getScheduleError));
+                    .catch((getScheduleError) => {
+                        errors.value = getScheduleError.response.data;
+                        isLoading.value = false;
+                        successMessage.value = false;
+                    });
 					
 				})
-				.catch((error) => {
-					alert(error);
+				.catch((updateScheduleError) => {
+                    errors.value = updateScheduleError.response.data;
+                    isLoading.value = false;
+                    successMessage.value = false;
 				});
 		}
 
@@ -250,11 +302,13 @@ export default {
             gaps,
             timeGap,
             has_appointment,
+            errors,
             formData,
             isModalOpen,
             isTimeGapLoading,
             openModel,
             closeModal,
+            makeNoBreak,
             updateSchedule,
             updateGap,
 			isLoading,
