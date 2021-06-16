@@ -12,6 +12,13 @@ export default [{
             meta: { requiresAuth: true, checkRole: CHECK_ROLE },
         },
         {
+            path: "appointment/create",
+            name: "doctor.appointment.create",
+            component: () =>
+                import ("../views/doctor/appointment.vue"),
+            meta: { requiresAuth: true, checkRole: CHECK_ROLE },
+        },
+        {
             path: "schedule",
             name: "doctor.schedule",
             component: () =>

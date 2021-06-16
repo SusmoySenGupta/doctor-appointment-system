@@ -2,7 +2,7 @@
 	<div class="w-full overflow-hidden rounded-lg shadow-xs">
 		<div class="w-full overflow-x-auto">
 			<div class=" px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-				<form @submit.prevent="makeAppointment()" class="flex flex-col gap-4">
+				<form @submit.prevent="makePatientAppointment()" class="flex flex-col gap-4">
 					<label class="block text-sm">
 						<span class="text-gray-700 dark:text-gray-400">
 							Select a doctor
@@ -94,15 +94,15 @@ export default {
             }
         }
 
-        function makeAppointment() {
+        function makePatientAppointment() {
             if(formData.value.doctor_id !== null && formData.value.appointment_date !== null && isAppointmentAvailable)
             {
                 isLoading.value = true;
 
-                AppointmentService.makeAppointment(formData.value)
-                .then((makeAppointmentResponse) => {
+                AppointmentService.makePatientAppointment(formData.value)
+                .then((makePatientAppointmentResponse) => {
                     isLoading.value = false;
-                    saved.value = makeAppointmentResponse.data.status;
+                    saved.value = makePatientAppointmentResponse.data.status;
                     formData.value.doctor_id = null;
                     formData.value.appointment_date = null;
                 })
@@ -123,7 +123,7 @@ export default {
             isLoading,
             saved,
             getTimingSchedules,
-            makeAppointment,
+            makePatientAppointment,
             moment
 		};
 	},

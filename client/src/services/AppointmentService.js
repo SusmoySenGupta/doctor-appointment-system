@@ -13,7 +13,11 @@ export default {
         return Api().put("patient/appointments/feedback/" + id, data);
     },
 
-    makeAppointment(data) {
+    makePatientAppointment(data) {
         return Api().post("patient/appointments/store", data);
+    },
+
+    makeDoctorAppointment(data) {
+        return Api().post("doctor/appointments/store", data);
     }
 };

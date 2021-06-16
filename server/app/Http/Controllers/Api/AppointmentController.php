@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Appointment\StoreAppointmentRequest;
+use App\Http\Requests\Appointment\StoreDoctorAppointmentRequest;
 use App\Http\Requests\Appointment\UpdateFeedbackRequest;
 use App\Models\Appointment;
 use App\Models\Day;
@@ -62,7 +63,7 @@ class AppointmentController extends Controller
         ]);
     }
 
-    public function store(StoreAppointmentRequest $request)
+    public function patientAppointmentStore(StoreAppointmentRequest $request)
     {
         $appointments = Appointment::where('doctor_id', $request->doctor_id)
             ->where('appointment_date', $request->appointment_date)
@@ -107,6 +108,18 @@ class AppointmentController extends Controller
                 $start_at = date('H:i', strtotime($start_at) + 60 * $gap);
             }
         }
+
+        return response()->json([
+            'status' => $status,
+        ]);
+    }
+
+    public function doctorAppointmentStore(StoreDoctorAppointmentRequest $request)
+    {
+
+        $appointment = Appointment::create($request->validated() + ['doctor_id' => Auth()->user()->id]);
+
+        $status = $appointment ? true : false;
 
         return response()->json([
             'status' => $status,
