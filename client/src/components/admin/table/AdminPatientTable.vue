@@ -61,7 +61,7 @@ import moment from "moment";
 
 export default {
 	async setup() {
-		const response = ref(await PatientService.getPatients());
+		const response = ref(await PatientService.getPatientForAdmin());
 		const patients = computed(() => response.value.data.data);
 		const isLoading = ref(false);
 

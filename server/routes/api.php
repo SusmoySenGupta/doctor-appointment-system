@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::put('/make-admin/{id}', [AdminController::class, 'makeAdmin']);
         Route::get('get-admin-card-details', [CardController::class, 'getAdminCardDetails']);
         Route::post('/doctor/store', [DoctorController::class, 'store']);
-        Route::get('/get-patients', [PatientController::class, 'index']);
+        Route::get('/get-patients', [PatientController::class, 'getPatientForAdmin']);
         Route::resource('/specialities', SpecialityController::class)->only(['index', 'store', 'update']);
     });
 
@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:api'], function ()
         Route::post('/appointments/store', [AppointmentController::class, 'doctorAppointmentStore']);
         Route::put('/appointments/mark-as-checked/{id}', [AppointmentController::class, 'markAsChecked']);
         Route::put('/gap/update', [DoctorController::class, 'updateGap']);
+        Route::get('/get-patients', [PatientController::class, 'getPatientForDoctor']);
         Route::get('/get-schedules', [ScheduleController::class, 'index']);
         Route::put('/schedules/update/{schedule}', [ScheduleController::class, 'update']);
     });

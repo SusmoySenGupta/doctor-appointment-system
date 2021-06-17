@@ -8,7 +8,6 @@
 						<th class="px-4 py-3">Email / Phone</th>
 						<th class="px-4 py-3">Date & Time</th>
 						<th class="px-4 py-3">Status</th>
-						<th class="px-4 py-3">Completed at</th>
 						<th class="px-4 py-3"> Action </th>
 					</tr>
 				</thead>
@@ -28,11 +27,6 @@
 							</div>
 						</td>
 						<td class="px-4 py-3 text-xs">
-							<div class="flex flex-col gap-1">
-								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
-							</div>
-						</td>
-                        <td class="px-4 py-3 text-xs">
 							<div class="flex flex-col gap-1">
 								<div class="w-24 h-3 bg-gray-200 dark:bg-gray-500 animate-pulse"></div>
 							</div>

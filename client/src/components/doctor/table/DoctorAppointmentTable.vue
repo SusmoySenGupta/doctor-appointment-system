@@ -8,7 +8,6 @@
 						<th class="px-4 py-3">Email / Phone</th>
 						<th class="px-4 py-3">Date & Time</th>
 						<th class="px-4 py-3">Status</th>
-						<th class="px-4 py-3">Completed at</th>
 						<th class="px-4 py-3 flex items-center justify-center gap-1.5">
                             Action
                             <span v-if="isLoading">
@@ -59,13 +58,6 @@
                             <span v-if="appointment.is_pending" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:text-white dark:bg-yellow-600">
                                 Pending
                             </span>
-                            <span v-else class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                Completed
-                            </span>
-						</td>
-
-                        <td class="px-4 py-3 text-xs">
-							{{appointment.checked_at ? moment(appointment.checked_at).format('DD-MMM-YYYY, hh:mm A') : 'N/A' }}
 						</td>
 
 						<td class="px-4 py-3 text-xs">

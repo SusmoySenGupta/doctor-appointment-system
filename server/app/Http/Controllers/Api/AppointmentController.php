@@ -37,6 +37,8 @@ class AppointmentController extends Controller
                     'appointments.*',
                     'blood_groups.name as blood_group'
                 )
+                ->where('is_pending', 1)
+                ->orderBy('id', 'desc')
                 ->get();
 
         }

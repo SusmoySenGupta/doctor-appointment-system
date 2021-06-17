@@ -1,7 +1,11 @@
 import Api from "./ApiService";
 
 export default {
-    getPatients() {
+    getPatientForAdmin() {
         return Api().get("admin/get-patients");
+    },
+
+    getPatientForDoctor() {
+        return Api().get("doctor/get-patients");
     },
 };
