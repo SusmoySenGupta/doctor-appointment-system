@@ -14,7 +14,7 @@
 			>
 				<label class="block text-sm">
 					<span class="text-gray-700 dark:text-gray-400">
-						Select a doctor
+						Select a patient
 					</span>
 					<select
 						class="

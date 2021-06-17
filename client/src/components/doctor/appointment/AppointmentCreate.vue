@@ -5,7 +5,7 @@
 				<form @submit.prevent="makeDoctorAppointment()" class="flex flex-col gap-4">
 					<label class="block text-sm">
 						<span class="text-gray-700 dark:text-gray-400">
-							Select a doctor
+							Select a patient
 						</span>
 						<select v-model="formData.patient_id" required class="block rounded w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 dark:focus:ring-purple-500">
                             <option value="null">--Select Patient--</option>
@@ -46,9 +46,9 @@
                             </span>
                         </button>
                     </div>
-					<div>
-                        <span v-if="isSaved" class="text-sm px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            Save Successfull
+					<div v-if="isSaved">
+                        <span class="text-sm px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            Appointment is successfully saved
                         </span>
                     </div>
 				</form>

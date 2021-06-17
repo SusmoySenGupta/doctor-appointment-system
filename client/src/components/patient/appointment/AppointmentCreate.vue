@@ -47,9 +47,9 @@
 							</button>
 						</div>
 					</label>
-					<div>
-                        <span v-if="saved" class="text-sm px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            Save Successfull
+					<div v-if="isSaved">
+                        <span class="text-sm px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            Appointment is successfully saved
                         </span>
                     </div>
 				</form>
@@ -71,14 +71,14 @@ export default {
         const isAppointmentAvailable = ref(null);
 		const isTimingScheduleLoading = ref(false);
 		const isLoading = ref(false);
-		const saved = ref(false);
+		const isSaved = ref(false);
         const formData = ref({doctor_id: null, appointment_date: null});
         
         function getTimingSchedules()
         {
             if(formData.value.doctor_id !== null && formData.value.appointment_date !== null)
             {
-                saved.value = false;
+                isSaved.value = false;
                 isTimingScheduleLoading.value = true;
                 
                 ScheduleService.getTimingSchedules(formData.value.doctor_id, formData.value.appointment_date)
@@ -102,13 +102,13 @@ export default {
                 AppointmentService.makePatientAppointment(formData.value)
                 .then((makePatientAppointmentResponse) => {
                     isLoading.value = false;
-                    saved.value = makePatientAppointmentResponse.data.status;
+                    isSaved.value = makePatientAppointmentResponse.data.status;
                     formData.value.doctor_id = null;
                     formData.value.appointment_date = null;
                 })
                 .catch((error) => {
                     isLoading.value = false;
-                    saved.value = false;
+                    isSaved.value = false;
                     alert(error);
                 });
             }
@@ -121,7 +121,7 @@ export default {
             isAppointmentAvailable,
             isTimingScheduleLoading,
             isLoading,
-            saved,
+            isSaved,
             getTimingSchedules,
             makePatientAppointment,
             moment
