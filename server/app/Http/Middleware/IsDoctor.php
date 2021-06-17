@@ -16,11 +16,10 @@ class IsDoctor
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->user()->role_id === 2)
+        if (Auth()->user()->role_id == 2)
         {
-            abort(403);
+            return $next($request);
         }
-
-        return $next($request);
+        abort(403);
     }
 }
