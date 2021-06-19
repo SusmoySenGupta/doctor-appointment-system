@@ -25,9 +25,8 @@ class AppointmentController extends Controller
         else if (Auth()->user()->role_id == 2)
         {
             $appointments = DB::table('users')
-                ->join('appointments', 'users.id', '=', 'appointments.patient_id')
-                ->where('appointments.doctor_id', Auth()->user()->id)
-                ->join('blood_groups', 'users.blood_group_id', '=', 'blood_groups.id')
+            ->join('appointments', 'users.id', '=', 'appointments.patient_id')
+            ->where('appointments.doctor_id', Auth()->user()->id)
                 ->select(
                     'users.name as patient_name',
                     'users.email as patient_email',
@@ -35,7 +34,6 @@ class AppointmentController extends Controller
                     'users.address as patient_address',
                     'users.gender as patient_gender',
                     'appointments.*',
-                    'blood_groups.name as blood_group'
                 )
                 ->where('is_pending', 1)
                 ->orderBy('id', 'desc')
