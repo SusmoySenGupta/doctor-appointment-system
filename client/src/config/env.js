@@ -1,4 +1,4 @@
 class env {
-    static baseURL = "http://localhost:8000";
+    static baseURL = "https://susmoycse.com/laravel-vue/doctor-appointment-app/server/";
 }
 export default env;

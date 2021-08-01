@@ -5,7 +5,7 @@ import DoctorRoutes from "./doctor";
 import PatientRoutes from "./patient";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/laravel-vue/doctor-appointment-app/'),
     routes: [{
             path: "/",
             redirect: {
